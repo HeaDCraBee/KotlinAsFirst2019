@@ -3,7 +3,6 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
-import kotlin.math.abs
 
 /**
  * Пример
@@ -28,7 +27,7 @@ fun isNumberHappy(number: Int): Boolean = number % 10 + number / 10 % 10 == numb
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = (x1 == x2) || (y1 == y2) || (x1 + y1 == x2 + y2) || (sqr(x2-x1) == sqr(y2 - y1))
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = (x1 == x2) || (y1 == y2) || (x1 + y1 == x2 + y2) || (sqr(x2 - x1) == sqr(y2 - y1))
 
 
 /**
@@ -51,7 +50,7 @@ fun daysInMonth(month: Int, year: Int): Int {
     else if (month == 12) return 31
     else {
         if ((year % 100) == 0) {
-            if (year % 400 == 0) return  29
+            if (year % 400 == 0) return 29
             else return 28
         }
         else if (year % 4 == 0) return 29
@@ -69,7 +68,7 @@ fun daysInMonth(month: Int, year: Int): Int {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = (x2 + r2 <= x1 + r1) && (x2 - r2 <= x1 - r1) && (y2 + r2 <= y1 +r1) && (y2 - r2 <= y1 - r1)
+): Boolean = (x2 + r2 <= x1 + r1) && (x2 - r2 <= x1 - r1) && (y2 + r2 <= y1 + r1) && (y2 - r2 <= y1 - r1)
 
 /**
  * Средняя
