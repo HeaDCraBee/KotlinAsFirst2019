@@ -46,7 +46,7 @@ fun daysInMonth(month: Int, year: Int): Int {
     else if (month == 8) return 31
     else if (month == 9) return 3
     else if (month == 10) return 31
-    else if (month == 11) return 31
+    else if (month == 11) return 30
     else if (month == 12) return 31
     else {
         if ((year % 100) == 0) {
@@ -68,8 +68,7 @@ fun daysInMonth(month: Int, year: Int): Int {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = (((sqr(x1 - x2) + sqr(y1 - y2) <= sqr(r2)) && (sqr(x1 + r1 - x2) + sqr(y1 + r1 - y2) <= sqr(r2)) && (sqr(x1 -r1 - x2) + sqr(y1 - r1 - y2) <= sqr(r2)) || ((x1 == x2) && (y1 == y2) && (r1 == r2))))
-// ((x1 in x2 - r2 .. x2 + r2) && (y1 in y2 -r2 .. y2 + r2) && (x1 + r1 in x2 - r2 .. x2 + r2) && (x1 - r1 in x2 - r2 .. x2 + r2) && (y1 + r1 in y2 - r2 .. y2 + r2) && (y1 - r1 in y2 - r2 .. y2 + r2))
+): Boolean = TODO()
 
 /**
  * Средняя

@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
 
 package lesson2.task1
 
@@ -65,12 +65,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    if (((age % 10) == 0) || ((age % 100) in 10..20) || ((age % 10) in 5..9))  return age.toString() + " лет"
-    else if ((age % 10) in 2..4) return age.toString() +" года"
-    else return age.toString() + " год"
+fun ageDescription(age: Int): String = when {
+    (age % 10 == 0) || ((age % 100) in 10..20) || ((age % 10) in 5..9) -> "$age лет"
+    ((age % 10) in 2..4) -> "$age года"
+    else -> "$age год"
 }
-
 
 
 /**
@@ -86,10 +85,11 @@ fun timeForHalfWay(
     t3: Double, v3: Double
 ): Double {
     val s = (v1 * t1 + v2 * t2 + v3 * t3) / 2
-    if (s <= v1 * t1) return (s / v1)
-    else if ((s > v1 * t1) && (s <= v1 * t1 + v2 * t2)) return (t1 + (s - v1 * t1) / v2)
-    else if ((s > v1 * t1 + v2 * t2) && (s <= v1 * t1 + v2 * t2 + v3 * t3)) return t1 + t2 + (s - (v1 * t1 + v2 * t2)) / v3
-    else return t1 + t2 + t3
+    return when {
+        (s <= v1 * t1) -> s / v1
+        (s > v1 * t1) && (s <= v1 * t1 + v2 * t2) -> t1 + (s - v1 * t1) / v2
+        else -> t1 + t2 + (s - (v1 * t1 + v2 * t2)) / v3
+    }
 }
 
 
@@ -106,12 +106,14 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int {
-    if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingX == rookY2))) return 3
-    else if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX != rookX2) && (kingX != rookY2))) return 1
-    else if (((kingX != rookX1) && (kingY != rookY1)) && ((kingX == rookX2) || (kingX == rookY2))) return 2
-    else return 0
+): Int = when {
+    ((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2)) -> 3
+    ((kingX == rookX1) || (kingY == rookY1)) && ((kingX != rookX2) && (kingY != rookY2)) -> 1
+    ((kingX != rookX1) && (kingY != rookY1)) && ((kingX == rookX2) || (kingY == rookY2)) -> 2
+    else -> 0
 }
+
+
 /**
  * Простая
  *
@@ -125,15 +127,20 @@ fun whichRookThreatens(
 fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
-    bishopX: Int, bishopY: Int): Int{
-    val nk = kingX - kingY
-    val nb = bishopX - bishopY
-    if (((kingX == rookX) || (kingY == rookY)) && ((kingX + kingY == bishopX + bishopY) || (abs(nk) == abs(nb)))) return 3
-    else if (((kingX == rookX) || (kingY == rookY)) && ((kingX + kingY != bishopX + bishopY) && (abs(nk) != abs(nb)))) return 1
-    else if (((kingX != rookX) || (kingY != rookY)) && ((kingX + kingY == bishopX + bishopY) || (abs(nk) == abs(nb)))) return 2
-    else return 0
-
+    bishopX: Int, bishopY: Int
+): Int {
+    val Bking = kingY - kingX
+    val Bbishop = bishopY - bishopX
+    val KBking = kingX + kingY
+    val KBbishop = bishopX + bishopY
+    return when {
+        ((kingX == rookX) || (kingY == rookY)) && ((Bking == Bbishop) || (KBking == KBbishop)) -> 3
+        ((kingX == rookX) || (kingY == rookY)) && ((Bking != Bbishop) && (KBking != KBbishop)) -> 1
+        ((kingX != rookX) && (kingY != rookY)) && ((Bking == Bbishop) || (KBking == KBbishop))-> 2
+        else -> 0
+    }
 }
+
 
 /**
  * Простая
@@ -144,31 +151,36 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val ab2 = sqr(a) + sqr(b)
+    val ac2 = sqr(a) + sqr(c)
+    val cb2 = sqr(c) + sqr(b)
     if ((c > a) && (c > b)) {
         if (c < a + b) {
-            if (sqr(c) < sqr(a) + sqr(b)) return 0
-            if (sqr(c) > sqr(a) + sqr(b)) return 2
-            else return 1
-        }
-        else return -1
-    }
-    else if ((a > c) && (a > b)) {
-            if (a < c + b) {
-                if (sqr(a) < sqr(c) + sqr(b)) return 0
-                if (sqr(a) > sqr(c) + sqr(b)) return 2
-                else return 1
+            return when {
+                sqr(c) < ab2 -> 0
+                sqr(c) > ab2 -> 2
+                else -> 1
             }
-            else return -1
-        }
-    else {
-        if (b < a +c) {
-            if (sqr(b) < sqr(c) + sqr(a)) return 0
-            if (sqr(b) > sqr(c) + sqr(a)) return 2
-            else return 1
-        }
-        else return -1
+        } else return -1
+    } else if ((a > c) && (a > b)) {
+        if (a < b + c) {
+            return when {
+                sqr(a) < cb2 -> 0
+                sqr(a) > cb2 -> 2
+                else -> 1
+            }
+        } else return -1
+    } else {
+        if (b < a + c) {
+            return when {
+                sqr(b) < ac2 -> 0
+                sqr(b) < ac2 -> 2
+                else -> 1
+            }
+        } else return -1
     }
 }
+
 
 /**
  * Средняя
@@ -183,9 +195,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         if (a <= c) {
             if (d <= b) return d - c
             else return b - c
-        }
-        else if (d <= b) return d - a
+        } else if (d <= b) return d - a
         else return b - a
-    }
-    else return -1
+    } else return -1
 }
