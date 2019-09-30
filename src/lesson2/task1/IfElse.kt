@@ -136,7 +136,7 @@ fun rookOrBishopThreatens(
     return when {
         ((kingX == rookX) || (kingY == rookY)) && ((Bking == Bbishop) || (KBking == KBbishop)) -> 3
         ((kingX == rookX) || (kingY == rookY)) && ((Bking != Bbishop) && (KBking != KBbishop)) -> 1
-        ((kingX != rookX) && (kingY != rookY)) && ((Bking == Bbishop) || (KBking == KBbishop))-> 2
+        ((kingX != rookX) && (kingY != rookY)) && ((Bking == Bbishop) || (KBking == KBbishop)) -> 2
         else -> 0
     }
 }
