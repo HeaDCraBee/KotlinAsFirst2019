@@ -129,14 +129,14 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    val Bking = kingY - kingX
-    val Bbishop = bishopY - bishopX
-    val KBking = kingX + kingY
-    val KBbishop = bishopX + bishopY
+    val bking = kingY - kingX
+    val bbishop = bishopY - bishopX
+    val kbking = kingX + kingY
+    val kbbishop = bishopX + bishopY
     return when {
-        ((kingX == rookX) || (kingY == rookY)) && ((Bking == Bbishop) || (KBking == KBbishop)) -> 3
-        ((kingX == rookX) || (kingY == rookY)) && ((Bking != Bbishop) && (KBking != KBbishop)) -> 1
-        ((kingX != rookX) && (kingY != rookY)) && ((Bking == Bbishop) || (KBking == KBbishop)) -> 2
+        ((kingX == rookX) || (kingY == rookY)) && ((bking == bbishop) || (kbking == kbbishop)) -> 3
+        ((kingX == rookX) || (kingY == rookY)) && ((bking != bbishop) && (kbking != kbbishop)) -> 1
+        ((kingX != rookX) && (kingY != rookY)) && ((bking == bbishop) || (kbking == kbbishop)) -> 2
         else -> 0
     }
 }
@@ -174,7 +174,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         if (b < a + c) {
             return when {
                 sqr(b) < ac2 -> 0
-                sqr(b) < ac2 -> 2
+                sqr(b) > ac2 -> 2
                 else -> 1
             }
         } else return -1
