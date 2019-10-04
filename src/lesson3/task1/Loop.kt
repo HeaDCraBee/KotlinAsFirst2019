@@ -148,10 +148,9 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var k = n
-    var i = n - 1
     if (isPrime(n) == true) return 1
     else {
-        for (i in i downTo 1) {
+        for (i in n-1 downTo 1) {
             if (n % i == 0) {
                 k = i
                 break
@@ -190,8 +189,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Double = 12.2 % 10
-    /* (sqrt(n.toDouble()) - sqrt(m.toDouble()) >= 1) || ((n == m && (sqrt(m.toDouble()) % 10 )))*/
+fun squareBetweenExists(m: Int, n: Int): Boolean = (sqrt(n.toDouble()).toInt() - sqrt(m - 1.toDouble()).toInt() >= 1)
+
 
 /**
  * Средняя
@@ -209,7 +208,16 @@ fun squareBetweenExists(m: Int, n: Int): Double = 12.2 % 10
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var i = 0
+    var value = x
+    while (value != 1) {
+        if (value % 2 == 0) value /= 2
+        else value = 3 * value + 1
+        i++
+    }
+    return i
+}
 
 /**
  * Средняя
