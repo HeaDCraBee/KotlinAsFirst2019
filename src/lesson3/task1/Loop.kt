@@ -70,7 +70,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var count = 0
-    var number = n
+    var number = abs(n)
     do {
         number /= 10
         count++
@@ -150,7 +150,7 @@ fun maxDivisor(n: Int): Int {
     var k = n
     if (isPrime(n) == true) return 1
     else {
-        for (i in n-1 downTo 1) {
+        for (i in n - 1 downTo 1) {
             if (n % i == 0) {
                 k = i
                 break
@@ -169,7 +169,7 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var k = 2
-    if ((isPrime(m) == true) && (isPrime(n) == true)) k = 1
+    if ((isPrime(m) == true) && (isPrime(n) == true) || ((m == 1) && (n == 1))) k = 1
     else {
         for (i in 2..min(m, n)) {
             if ((m % i == 0) && (n % i) == 0) {
@@ -248,7 +248,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var k = 0
+    var i = n
+    var z = 10
+    while (i != 0) {
+        k = k * z + i % 10
+        i /= 10
+    }
+    return k
+}
 
 /**
  * Средняя
