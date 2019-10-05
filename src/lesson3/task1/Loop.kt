@@ -211,7 +211,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = (sqrt(n.toDouble()).toInt() -
 fun collatzSteps(x: Int): Int {
     var i = 0
     var value = x
-    while (value != 1) {
+    while (value!= 1) {
         if (value % 2 == 0) value /= 2
         else value = 3 * value + 1
         i++
