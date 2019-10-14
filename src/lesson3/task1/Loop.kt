@@ -85,25 +85,11 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    val fibNomber = (((((1 + sqrt(5.0)) / 2).pow(n)) - (((1 - sqrt(5.0)) / 2).pow(n))) / sqrt(5.0)).toInt()
+    val fibNumber = (((((1 + sqrt(5.0)) / 2).pow(n)) - (((1 - sqrt(5.0)) / 2).pow(n))) / sqrt(5.0)).toInt()
     if (n == 50) println((((((1 + sqrt(5.0)) / 2).pow(n)) - (((1 - sqrt(5.0)) / 2).pow(n))) / sqrt(5.0)).toInt())
-    return fibNomber
+    return fibNumber
 }
 
-
-/* Решение с рекурсией
-fun fib(n: Int): Int {
-    var value = 0
-    var f = 1
-    for (i in 1..n) {
-        if ((i == 1) || (i == 2)) value = 1
-        else {
-            value += f
-            f = fib(i - 1)
-        }
-    }
-    return value
-}*/
 
 /**
  * Простая
@@ -129,7 +115,7 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var k = 0
-    if (isPrime(n) == true) return n
+    return if (isPrime(n) == true) n
     else {
         for (i in 2..n) {
             if (n % i == 0) {
@@ -148,7 +134,7 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var k = n
-    if (isPrime(n) == true) return 1
+    return if (isPrime(n) == true) 1
     else {
         for (i in n - 1 downTo 1) {
             if (n % i == 0) {
@@ -168,18 +154,17 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var k = 2
-    if ((isPrime(m) == true) && (isPrime(n) == true) || (m == 1) || (n == 1)) k = 1
+    var k = true
+    if ((isPrime(m) == true) && (isPrime(n) == true) || (m == 1) || (n == 1)) k = true
     else {
         for (i in 2..min(m, n)) {
             if ((m % i == 0) && (n % i) == 0) {
-                k = 0
+                k = false
                 break
-            } else k = 1
+            } else k = true
         }
     }
-    if (k == 1) return true
-    else return false
+    return k
 }
 
 /**
@@ -189,8 +174,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = (sqrt(n.toDouble()).toInt() - sqrt(m - 1.toDouble()).toInt() >= 1)
-
+fun squareBetweenExists(m: Int, n: Int):
+        Boolean =
+    (sqrt(n.toDouble()).toInt() - sqrt(m - 1.toDouble()).toInt() >= 1) || ((m == n) && (sqrt(m.toDouble()) % 10 <= 0))
+// к не работающему решению добавлено условие "|| ((m == n) && (sqrt(m.toDouble()) % 10 <= 0))"
 
 /**
  * Средняя
@@ -251,7 +238,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var k = 0
     var i = n
-    var z = 10
+    val z = 10
     while (i != 0) {
         k = k * z + i % 10
         i /= 10

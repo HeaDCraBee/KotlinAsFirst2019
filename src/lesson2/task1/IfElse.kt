@@ -129,14 +129,14 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    val bking = kingY - kingX
-    val bbishop = bishopY - bishopX
-    val kbking = kingX + kingY
-    val kbbishop = bishopX + bishopY
+    val bKing = kingY - kingX
+    val bBishop = bishopY - bishopX
+    val kKing = kingX + kingY
+    val kBishop = bishopX + bishopY
     return when {
-        ((kingX == rookX) || (kingY == rookY)) && ((bking == bbishop) || (kbking == kbbishop)) -> 3
-        ((kingX == rookX) || (kingY == rookY)) && ((bking != bbishop) && (kbking != kbbishop)) -> 1
-        ((kingX != rookX) && (kingY != rookY)) && ((bking == bbishop) || (kbking == kbbishop)) -> 2
+        ((kingX == rookX) || (kingY == rookY)) && ((bKing == bBishop) || (kKing == kBishop)) -> 3
+        ((kingX == rookX) || (kingY == rookY)) && ((bKing != bBishop) && (kKing != kBishop)) -> 1
+        ((kingX != rookX) && (kingY != rookY)) && ((bKing == bBishop) || (kKing == kBishop)) -> 2
         else -> 0
     }
 }
@@ -151,34 +151,23 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val ab2 = sqr(a) + sqr(b)
-    val ac2 = sqr(a) + sqr(c)
-    val cb2 = sqr(c) + sqr(b)
-    if ((c > a) && (c > b)) {
-        if (c < a + b) {
-            return when {
-                sqr(c) < ab2 -> 0
-                sqr(c) > ab2 -> 2
-                else -> 1
-            }
-        } else return -1
-    } else if ((a > c) && (a > b)) {
-        if (a < b + c) {
-            return when {
-                sqr(a) < cb2 -> 0
-                sqr(a) > cb2 -> 2
-                else -> 1
-            }
-        } else return -1
-    } else {
-        if (b < a + c) {
-            return when {
-                sqr(b) < ac2 -> 0
-                sqr(b) > ac2 -> 2
-                else -> 1
-            }
-        } else return -1
+    var max = a
+    var s2 = sqrt(b) + sqrt(c)
+    if (max < b) {
+        max = b
+        s2 = sqrt(a) + sqrt(c)
     }
+    if (max < c) {
+        max = c
+        s2 = sqrt(a) + sqrt(b)
+    }
+    if (max < a + b + c - max) {
+        return when {
+            sqr(max) < s2 -> 0
+            sqr(max) > s2 -> 2
+            else -> 1
+        }
+    } else return -1
 }
 
 

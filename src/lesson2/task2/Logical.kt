@@ -29,7 +29,7 @@ fun isNumberHappy(number: Int): Boolean = number % 10 + number / 10 % 10 == numb
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
-    (x1 == x2) || (y1 == y2) || (x1 + y1 == x2 + y2) || (sqr(x2 - x1) == sqr(y2 - y1))
+    (x1 == x2) || (y1 == y2) || (x1 + y1 == x2 + y2) || (y1 - x1 == y2 - x2)
 
 
 /**
@@ -72,4 +72,9 @@ fun circleInside(
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int):
         Boolean =
-    ((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) || ((b <= r) && (c <= s)) || ((b <= s) && (c <= r)) || ((a <= r) && (c <= s)) || ((a <= s) && (c <= r))
+    ((a <= r) && (b <= s)) ||
+            ((a <= s) && (b <= r)) ||
+            ((b <= r) && (c <= s)) ||
+            ((b <= s) && (c <= r)) ||
+            ((a <= r) && (c <= s)) ||
+            ((a <= s) && (c <= r))
