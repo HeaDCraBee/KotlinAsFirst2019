@@ -259,8 +259,7 @@ fun hasDifferentDigits(n: Int): Boolean {
         if (first != (value % 10)) {
             k = true
             break
-        }
-        else {
+        } else {
             value /= 10
             continue
         }
