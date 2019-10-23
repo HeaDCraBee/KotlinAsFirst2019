@@ -161,7 +161,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int):
         Boolean =
-            (sqrt(n.toDouble()) % 10 == 0.0) ||
+    (sqrt(n.toDouble()) % 10 == 0.0) ||
             (sqrt(m.toDouble()) % 10 == 0.0) ||
             (sqrt(n.toDouble()).toInt() - sqrt(m - 1.toDouble()).toInt() >= 1)
 
@@ -251,7 +251,22 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var k = false
+    val first = n % 10
+    var value = n
+    while (value != 0) {
+        if (first != (value % 10)) {
+            k = true
+            break
+        }
+        else {
+            value /= 10
+            continue
+        }
+    }
+    return k
+}
 
 /**
  * Сложная
