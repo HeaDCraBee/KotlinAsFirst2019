@@ -86,7 +86,6 @@ fun digitNumber(n: Int): Int {
  */
 fun fib(n: Int): Int {
     val fibNumber = (((((1 + sqrt(5.0)) / 2).pow(n)) - (((1 - sqrt(5.0)) / 2).pow(n))) / sqrt(5.0)).toInt()
-    if (n == 50) println((((((1 + sqrt(5.0)) / 2).pow(n)) - (((1 - sqrt(5.0)) / 2).pow(n))) / sqrt(5.0)).toInt())
     return fibNumber
 }
 
@@ -98,13 +97,13 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var i = 1
-    var k = 0
-    while (k == 0) {
-        if ((i % m == 0) && (i % n == 0)) k = i
-        i++
+    var x = m
+    var y = n
+    while (x != y) {
+        if (x > y) x -= y
+        else y -= x
     }
-    return k
+    return m * (n / x)
 }
 
 
@@ -114,17 +113,15 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = 0
-    return if (isPrime(n) == true) n
-    else {
-        for (i in 2..n) {
-            if (n % i == 0) {
-                k = i
-                break
-            } else continue
-        }
-        return k
+    var k = n
+    val l = sqrt(n.toDouble())
+    for (i in 2..l.toInt()) {
+        if (n % i == 0) {
+            k = i
+            break
+        } else continue
     }
+    return k
 }
 
 /**
@@ -132,19 +129,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var k = n
-    return if (isPrime(n) == true) 1
-    else {
-        for (i in n - 1 downTo 1) {
-            if (n % i == 0) {
-                k = i
-                break
-            } else continue
-        }
-        return k
-    }
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -155,13 +140,13 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var k = true
-    if ((isPrime(m) == true) && (isPrime(n) == true) || (m == 1) || (n == 1)) k = true
+    if ((isPrime(m)) && (isPrime(n)) || (m == 1) || (n == 1)) k = true
     else {
         for (i in 2..min(m, n)) {
             if ((m % i == 0) && (n % i) == 0) {
                 k = false
                 break
-            } else k = true
+            }
         }
     }
     return k
@@ -176,8 +161,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int):
         Boolean =
-    (sqrt(n.toDouble()).toInt() - sqrt(m - 1.toDouble()).toInt() >= 1) || ((m == n) && (sqrt(m.toDouble()) % 10 <= 0))
-// к не работающему решению добавлено условие "|| ((m == n) && (sqrt(m.toDouble()) % 10 <= 0))"
+            (sqrt(n.toDouble()) % 10 == 0.0) ||
+            (sqrt(m.toDouble()) % 10 == 0.0) ||
+            (sqrt(n.toDouble()).toInt() - sqrt(m - 1.toDouble()).toInt() >= 1)
 
 /**
  * Средняя
@@ -255,7 +241,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя

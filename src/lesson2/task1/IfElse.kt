@@ -152,14 +152,14 @@ fun rookOrBishopThreatens(
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     var max = a
-    var s2 = sqrt(b) + sqrt(c)
+    var s2 = sqr(b)+ sqr(c)
     if (max < b) {
         max = b
-        s2 = sqrt(a) + sqrt(c)
+        s2 = sqr(a)+ sqr(c)
     }
     if (max < c) {
         max = c
-        s2 = sqrt(a) + sqrt(b)
+        s2 = sqr(a)+ sqr(b)
     }
     if (max < a + b + c - max) {
         return when {
