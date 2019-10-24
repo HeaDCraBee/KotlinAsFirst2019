@@ -85,8 +85,7 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    val fibNumber = (((((1 + sqrt(5.0)) / 2).pow(n)) - (((1 - sqrt(5.0)) / 2).pow(n))) / sqrt(5.0)).toInt()
-    return fibNumber
+    return (((((1 + sqrt(5.0)) / 2).pow(n)) - (((1 - sqrt(5.0)) / 2).pow(n))) / sqrt(5.0)).toInt()
 }
 
 
@@ -276,7 +275,9 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    return sequenceDigit(n,"sqr")
+}
 
 /**
  * Сложная
@@ -287,4 +288,35 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+   return sequenceDigit(n, "fib")
+}
+
+
+fun sequenceDigit (n:Int,x:String) : Int{
+    var i = 0
+    var num = 0
+    var a = 0
+    while (i < n) {
+        num ++
+        var value = 0
+        if (x == "fib") value = fib(num)
+        else if (x == "sqr") value = sqr(num)
+        var k = 0
+        val z = value
+        while (value > 0) {
+            k++
+            value /= 10
+        }
+        i += k
+        if (i < n) continue
+        else {
+            a = (z / 10.0.pow(i - n)).toInt() % 10
+            break
+        }
+    }
+    return a
+    }
+
+
+
