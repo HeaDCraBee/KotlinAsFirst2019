@@ -276,7 +276,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    return sequenceDigit(n,"sqr")
+    return sequenceDigit(n, "sqr")
 }
 
 /**
@@ -289,16 +289,16 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-   return sequenceDigit(n, "fib")
+    return sequenceDigit(n, "fib")
 }
 
 
-fun sequenceDigit (n:Int,x:String) : Int{
+fun sequenceDigit(n: Int, x: String): Int {
     var i = 0
     var num = 0
     var a = 0
     while (i < n) {
-        num ++
+        num++
         var value = 0
         if (x == "fib") value = fib(num)
         else if (x == "sqr") value = sqr(num)
@@ -316,7 +316,7 @@ fun sequenceDigit (n:Int,x:String) : Int{
         }
     }
     return a
-    }
+}
 
 
 
