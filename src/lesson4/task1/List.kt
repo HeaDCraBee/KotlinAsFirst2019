@@ -418,10 +418,12 @@ fun russian(n: Int): String {
                 str = toRussian(n / 1000) + " тысяч" + toRussian(n % 1000)
             } else {
                 when (n / 1000 % 10) {
-                    1 -> str = toRussian(n / 1000) + " тысячa" + toRussian(n % 1000)
+                    1 -> str = toRussian(n / 1000).substring(0,
+                        toRussian(n / 1000).length - 2) +
+                        "на тысяча" + toRussian(n % 1000)
                     2 -> str = toRussian(n / 1000).substring(0,
-                            toRussian(n / 1000).length - 1) +
-                            "е тысячи" + toRussian(n % 1000)
+                        toRussian(n / 1000).length - 1) +
+                        "е тысячи" + toRussian(n % 1000)
                     3, 4 -> str = toRussian(n / 1000) + " тысячи" + toRussian(n % 1000)
                     in 5..9, 0 -> str = toRussian(n / 1000) + " тысяч" + toRussian(n % 1000)
                 }
