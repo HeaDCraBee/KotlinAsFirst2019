@@ -260,12 +260,10 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var value = n
-    var a = 0
     var str = ""
     while (value > 0) {
         if (value % base > 9) {
-            a = 87 + value % base
-            str += a.toChar()
+            str += (87 + value % base).toChar()
         } else str += value % base
         value /= base
     }
@@ -302,6 +300,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 fun decimalFromString(str: String, base: Int): Int = TODO()
+
 
 fun toRoman(b: Int, x: String, y: String, z: String): String {
     var a = b
@@ -385,8 +384,8 @@ fun toRussian(x: Int): String {
     when {
         x / 10 % 10 in (2..3) -> str += numToStr(x / 10 % 10) + "дцать"
         x / 10 % 10 in (5..8) -> str += numToStr(x / 10 % 10) + "десят"
-        x / 10 % 10 == 4 -> str += "сорок"
-        x / 10 % 10 == 9 -> str += "девяносто"
+        x / 10 % 10 == 4 -> str += " сорок"
+        x / 10 % 10 == 9 -> str += " девяносто"
     }
     if (x / 10 % 10 == 1) {
         when (x % 10) {
