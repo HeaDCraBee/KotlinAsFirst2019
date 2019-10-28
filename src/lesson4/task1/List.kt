@@ -337,7 +337,6 @@ fun decimalFromString(str: String, base: Int): Int {
     }
     return a
 }
-//fun decimalFromString решена не правильно
 
 /**
  * Сложная
