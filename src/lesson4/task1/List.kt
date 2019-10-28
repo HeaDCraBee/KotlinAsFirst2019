@@ -301,17 +301,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int {
-    val strRev = str.reversed()
-    var a = 0
-    for (i in 0 until strRev.length) {
-        if ((strRev[i].toByte() >= 97) && (strRev[i].toByte() <= 122)) a += (strRev[i].toByte() - 87) * base.toDouble().pow(
-            i
-        ).toInt()
-        else a += strRev[i].toInt() * base.toDouble().pow(i).toInt()
-    }
-    return a
-}
+fun decimalFromString(str: String, base: Int): Int = TODO()
 
 fun toRoman(b: Int, x: String, y: String, z: String): String {
     var a = b
