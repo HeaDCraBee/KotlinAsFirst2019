@@ -5,6 +5,7 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import lesson3.task1.isPrime
+import lesson3.task1.minDivisor
 import kotlin.math.*
 
 /**
@@ -207,21 +208,13 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var i = 2
     var value = n
-    if (isPrime(value)) return listOf(value)
+    return if (isPrime(value)) listOf(value)
     else {
         var list = listOf<Int>()
         while (value > 1) {
-            var z = 0
-            while (z == 0) {
-                z = value % i
-                if ((value % i == 0) && (isPrime(i))) {
-                    value /= i
-                    list = list + i
-                }
-            }
-            i++
+            list = list + minDivisor(value)
+            value /= minDivisor(value)
         }
         return list
     }
@@ -234,27 +227,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    var i = 2
-    var value = n
-    if (isPrime(value)) return n.toString()
-    else {
-        var str = ""
-        while (value > 1) {
-            var z = 0
-            while (z == 0) {
-                z = value % i
-                if ((value % i == 0) && (isPrime(i))) {
-                    value /= i
-                    str += "$i*"
-                }
-            }
-            i++
-        }
-        i = str.length - 1
-        return str.substring(0, i)
-    }
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 
 /**
  * Средняя
@@ -329,13 +302,37 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 fun decimalFromString(str: String, base: Int): Int {
-    val strRev= str.reversed()
+    val strRev = str.reversed()
     var a = 0
-    for (i in 0 until strRev.length){
-        if ((strRev[i].toByte() >= 97) && (strRev[i].toByte() <= 122)) a += (strRev[i].toByte() - 87) * base.toDouble().pow(i).toInt()
+    for (i in 0 until strRev.length) {
+        if ((strRev[i].toByte() >= 97) && (strRev[i].toByte() <= 122)) a += (strRev[i].toByte() - 87) * base.toDouble().pow(
+            i
+        ).toInt()
         else a += strRev[i].toInt() * base.toDouble().pow(i).toInt()
     }
     return a
+}
+
+fun toRoman(b: Int, x: String, y: String, z: String): String {
+    var a = b
+    var str = ""
+    when {
+        a < 4 -> while (a > 0) {
+            str += x
+            a--
+        }
+        a == 4 -> str += y + x
+        a == 5 -> str += y
+        (a > 5) && (a < 9) -> {
+            while (a - 5 > 0) {
+                str += x
+                a--
+            }
+            str += y
+        }
+        a == 9 -> str = z + x
+    }
+    return str
 }
 
 /**
@@ -346,7 +343,30 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var value = n
+    var a = 0
+    var i = 1
+    var str = ""
+    while (value > 0) {
+        i *= 10
+        a = value % 10
+        if (a > 0) {
+            when {
+                i == 10 -> str = toRoman(a, "I", "V", "X")
+                i == 100 -> str += toRoman(a, "X", "L", "C")
+                i == 1000 -> str += toRoman(a, "C", "D", "M")
+                i >= 10000 -> while (a > 0) {
+                    str += "M"
+                    a--
+                }
+            }
+        }
+        value /= 10
+    }
+    return str.reversed()
+
+}
 
 /**
  * Очень сложная
@@ -355,4 +375,8 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var a = n
+    var str = ""
+    return str
+}
