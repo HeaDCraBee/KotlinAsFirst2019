@@ -376,8 +376,8 @@ fun numToStr(x: Int): String {
 fun toRussian(x: Int): String {
     var str = ""
     when {
-        x / 100 == 1 -> str += "сто"
-        x / 100 == 2 -> str += "двести"
+        x / 100 == 1 -> str += " сто"
+        x / 100 == 2 -> str += " двести"
         x / 100 in 3..4 -> str += numToStr(x / 100) + "ста"
         x / 100 in 5..9 -> str += numToStr(x / 100) + "сот"
     }
