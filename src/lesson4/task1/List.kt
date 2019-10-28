@@ -313,7 +313,7 @@ fun toRoman(b: Int, x: String, y: String, z: String): String {
         }
         a == 4 -> str += y + x
         a == 5 -> str += y
-        (a > 5) && (a < 9) -> {
+        a in 6..8 -> {
             while (a - 5 > 0) {
                 str += x
                 a--
@@ -335,12 +335,11 @@ fun toRoman(b: Int, x: String, y: String, z: String): String {
  */
 fun roman(n: Int): String {
     var value = n
-    var a = 0
     var i = 1
     var str = ""
     while (value > 0) {
         i *= 10
-        a = value % 10
+        var a = value % 10
         if (a > 0) {
             when {
                 i == 10 -> str = toRoman(a, "I", "V", "X")
@@ -358,6 +357,51 @@ fun roman(n: Int): String {
 
 }
 
+fun numToStr(x: Int): String {
+    var str = ""
+    when (x) {
+        1 -> str = " один"
+        2 -> str = " два"
+        3 -> str = " три"
+        4 -> str = " четыре"
+        5 -> str = " пять"
+        6 -> str = " шесть"
+        7 -> str = " семь"
+        8 -> str = " восемь"
+        9 -> str = " девять"
+        10 -> str = " десят"
+    }
+    return str
+}
+
+fun toRussian(x: Int): String {
+    var str = ""
+    when {
+        x / 100 == 1 -> str += "сто"
+        x / 100 == 2 -> str += "двести"
+        x / 100 in 3..4 -> str += numToStr(x / 100) + "ста"
+        x / 100 in 5..9 -> str += numToStr(x / 100) + "сот"
+    }
+    when {
+        x / 10 % 10 in (2..3) -> str += numToStr(x / 10 % 10) + "дцать"
+        x / 10 % 10 in (5..8) -> str += numToStr(x / 10 % 10) + "десят"
+        x / 10 % 10 == 4 -> str += "сорок"
+        x / 10 % 10 == 9 -> str += "девяносто"
+    }
+    if (x / 10 % 10 == 1) {
+        when (x % 10) {
+            0 -> str += numToStr(10)
+            1, 3 -> str += numToStr(x % 10) + "надцать"
+            2 -> str += "двенадцать"
+            4, 5, 6, 7, 8, 9 -> str += numToStr(x % 10).substring(0, numToStr(x % 10).length - 1) + "надцать"
+        }
+    } else when {
+        x % 10 in 0..9 -> str += numToStr(x % 10)
+    }
+    return str
+}
+
+
 /**
  * Очень сложная
  *
@@ -366,7 +410,24 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var a = n
     var str = ""
-    return str
+    when {
+        n in 1..999 -> str = toRussian(n)
+        n in 1000..1999 -> str = " тысяча" + toRussian(n % 1000)
+        n in 2000..999999 -> {
+            if (n / 10000 % 10 == 1) {
+                str = toRussian(n / 1000) + " тысяч" + toRussian(n % 1000)
+            } else {
+                when (n / 1000 % 10) {
+                    1 -> str = toRussian(n / 1000) + " тысячa" + toRussian(n % 1000)
+                    2 -> str = toRussian(n / 1000).substring(0,
+                            toRussian(n / 1000).length - 1) +
+                            "е тысячи" + toRussian(n % 1000)
+                    3, 4 -> str = toRussian(n / 1000) + " тысячи" + toRussian(n % 1000)
+                    in 5..9, 0 -> str = toRussian(n / 1000) + " тысяч" + toRussian(n % 1000)
+                }
+            }
+        }
+    }
+    return str.trim()
 }
