@@ -175,7 +175,7 @@ fun times(a: List<Int>, b: List<Int>): Int {
 fun polynom(p: List<Int>, x: Int): Int {
     var pX = 0
     for (i in 0 until p.size)
-        pX += (p[i] * x.toDouble().pow(i)).toInt()
+        pX += p[i] * (x.toDouble().pow(i)).toInt()
     return pX
 }
 
@@ -270,7 +270,8 @@ fun convert(n: Int, base: Int): List<Int> {
         list = list + value % base
         value /= base
     }
-    return list.reversed()
+    return if (list.isEmpty()) listOf(0)
+    else list.reversed()
 }
 
 /**
@@ -285,10 +286,9 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int, base: Int): String {
-
-    var str = ""
     var value = n
     var a = 0
+    var str = ""
     while (value > 0) {
         if (value % base > 9) {
             a = 87 + value % base
@@ -296,7 +296,8 @@ fun convertToString(n: Int, base: Int): String {
         } else str += value % base
         value /= base
     }
-    return str.reversed()
+    return if (str.isEmpty()) "0"
+    else str.reversed()
 }
 
 /**
@@ -306,7 +307,14 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var a = 0
+    val digitsRev = digits.reversed()
+    for (i in 0 until digitsRev.size) {
+        a += digitsRev[i] * base.toDouble().pow(i).toInt()
+    }
+    return a
+}
 
 /**
  * Сложная
@@ -320,7 +328,16 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val strRev= str.reversed()
+    var a = 0
+    for (i in 0 until strRev.length){
+        if ((strRev[i].toByte() >= 97) && (strRev[i].toByte() <= 122)) a += (strRev[i].toByte() - 87) * base.toDouble().pow(i).toInt()
+        else a += strRev[i].toInt() * base.toDouble().pow(i).toInt()
+    }
+    return a
+}
+//fun decimalFromString решена не правильно
 
 /**
  * Сложная
