@@ -197,8 +197,9 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
             res[key] = value
             i = 1
         } else if (key in res) {
+            val n = i
             i++
-            res[key] = (value + res[key]!!) / i
+            res[key] = (value + res[key]!! * n) / i
         }
     }
     return res
@@ -219,11 +220,10 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String?  {
-    var type : String? = null
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var type: String? = null
     var min = Double.MAX_VALUE
-    for ((key, pair) in stuff)
-    {
+    for ((key, pair) in stuff) {
         if ((pair.first == kind) && (pair.second <= min)) {
             type = key
             min = pair.second
