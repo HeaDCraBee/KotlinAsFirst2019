@@ -400,7 +400,7 @@ fun toRussian(x: Int): String {
         when (x % 10) {
             0 -> str += numToStr(10)
             1, 3 -> str += numToStr(x % 10) + "надцать"
-            2 -> str += "двенадцать"
+            2 -> str += " двенадцать"
             4, 5, 6, 7, 8, 9 -> str += numToStr(x % 10).substring(0, numToStr(x % 10).length - 1) + "надцать"
         }
     } else when {
