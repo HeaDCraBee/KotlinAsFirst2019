@@ -196,14 +196,12 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
         if (key !in res) {
             res[key] = value
             i = 1
-        }
-        else if (key in res) {
+        } else if (key in res) {
             val n = i
             i++
-            res[key] = (value + res[key]!!/n)/i
+            res[key] = (value + res[key]!! / n) / i
         }
     }
-
     return res
 }
 
