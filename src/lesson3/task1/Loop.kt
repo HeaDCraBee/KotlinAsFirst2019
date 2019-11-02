@@ -287,7 +287,6 @@ fun hasDifferentDigits(n: Int): Boolean {
             break
         } else {
             value /= 10
-            continue
         }
     }
     return k
@@ -302,9 +301,8 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int {
-    return sequenceDigit(n, "sqr")
-}
+fun squareSequenceDigit(n: Int): Int = sequenceDigit(n, "sqr")
+
 
 /**
  * Сложная
@@ -315,9 +313,8 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int {
-    return sequenceDigit(n, "fib")
-}
+fun fibSequenceDigit(n: Int): Int = sequenceDigit(n, "fib")
+
 
 
 fun sequenceDigit(n: Int, x: String): Int {

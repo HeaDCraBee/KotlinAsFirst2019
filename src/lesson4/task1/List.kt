@@ -191,10 +191,8 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    if (list.size > 1) {
-        for (i in 1 until list.size) {
-            list[i] += list[i - 1]
-        }
+    for (i in 1 until list.size) {
+        list[i] += list[i - 1]
     }
     return list
 }
@@ -303,14 +301,10 @@ fun decimalFromString(str: String, base: Int): Int {
     var a = 0
     val str1 = str.reversed()
     for (i in 0 until str1.length) {
-        if (str1[i].toByte() in 97..122) {
-            a += ((str1[i].toByte() - 87) * base.toDouble().pow(i).toInt())
-        }
-
-         else if (str1[i].toByte() > 0) {
-            a += (str1[i].toByte() - 48) * base.toDouble().pow(i).toInt()
-        } else {
-            a += 0
+        a += when {
+            str1[i] in 'a'..'z' -> (str1[i].toByte() - 87) * base.toDouble().pow(i).toInt()
+            str1[i].toByte() > 0 -> (str1[i].toByte() - 48) * base.toDouble().pow(i).toInt()
+            else -> 0
         }
     }
     return a
@@ -355,11 +349,11 @@ fun roman(n: Int): String {
         i *= 10
         var a = value % 10
         if (a > 0) {
-            when {
-                i == 10 -> str = toRoman(a, "I", "V", "X")
-                i == 100 -> str += toRoman(a, "X", "L", "C")
-                i == 1000 -> str += toRoman(a, "C", "D", "M")
-                i >= 10000 -> while (a > 0) {
+            when (i) {
+                10 -> str = toRoman(a, "I", "V", "X")
+                100 -> str += toRoman(a, "X", "L", "C")
+                1000 -> str += toRoman(a, "C", "D", "M")
+                else -> while (a > 0) {
                     str += "M"
                     a--
                 }
@@ -425,10 +419,10 @@ fun toRussian(x: Int): String {
  */
 fun russian(n: Int): String {
     var str = ""
-    when {
-        n in 1..999 -> str = toRussian(n)
-        n in 1000..1999 -> str = " тысяча" + toRussian(n % 1000)
-        n in 2000..999999 -> {
+    when (n) {
+        in 1..999 -> str = toRussian(n)
+        in 1000..1999 -> str = " тысяча" + toRussian(n % 1000)
+        in 2000..999999 -> {
             if (n / 10000 % 10 == 1) {
                 str = toRussian(n / 1000) + " тысяч" + toRussian(n % 1000)
             } else {
