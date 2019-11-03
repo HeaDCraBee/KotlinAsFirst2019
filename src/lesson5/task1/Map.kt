@@ -319,11 +319,10 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val n = 0
-    for (i in n until list.size - 1) {
+    for (i in 0 until list.size - 1) {
         if (list[i] <= number) {
-            for (j in (n + 1) until list.size)
-                if ((i != j) && (list[i] + list[j] == number)) return Pair(i, j)
+            for (j in (i + 1) until list.size)
+                if (list[i] + list[j] == number) return Pair(i, j)
         }
     }
     return Pair(-1, -1)
