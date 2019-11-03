@@ -285,8 +285,8 @@ fun hasAnagrams(words: List<String>): Boolean {
                 b = a
             }
         }
-        for (n in i until word.size) {
-            if ((canBuildFrom(word, words[n])) && (words[n] != ""))
+        for (n in i until words.size) {
+            if (canBuildFrom(word, words[n]))
                 return true
         }
     }
