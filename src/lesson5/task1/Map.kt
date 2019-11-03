@@ -191,17 +191,13 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
     val res = mutableMapOf<String, Double>()
-    var i = 1
-    for ((key, value) in stockPrices) {
-        if (key !in res) {
-            res[key] = value
-            i = 1
-        } else if (key in res) {
-            val n = i
-            i++
-            res[key] = (value + res[key]!! * n) / i
-        }
-    }
+    val sum = mutableMapOf<String, List<Double>>()
+    for ((key, value) in stockPrices)
+        sum[key] = sum.getOrDefault(key, listOf()) + value
+
+    for ((key, value) in sum)
+        res[key] = value.average()
+
     return res
 }
 
@@ -241,7 +237,11 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    for (i in word)
+        if ((i !in chars)&&(i.toUpperCase() !in chars) && (i.toLowerCase() !in chars)) return false
+    return true
+}
 
 
 /**
