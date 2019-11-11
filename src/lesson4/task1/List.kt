@@ -235,15 +235,16 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var list = listOf<Int>()
+    val list = mutableListOf<Int>()
     var value = n
     while (value > 0) {
-        list = list + value % base
+        list.add(value % base)
         value /= base
     }
     return if (list.isEmpty()) listOf(0)
     else list.reversed()
 }
+
 
 /**
  * Сложная
@@ -257,17 +258,16 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int, base: Int): String {
-    var value = n
-    var str = ""
-    while (value > 0) {
-        if (value % base > 9) {
-            str += (87 + value % base).toChar()
-        } else str += value % base
-        value /= base
+    return buildString {
+        val digitsList = convert (n, base)
+        for ( i in 0 until digitsList.size){
+            if (digitsList[i] > 9) append((digitsList[i] + 'a'.toByte() - 10).toChar())
+            else append(digitsList[i])
+        }
     }
-    return if (str.isEmpty()) "0"
-    else str.reversed()
 }
+
+
 
 /**
  * Средняя
@@ -298,39 +298,40 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var a = 0
-    val str1 = str.reversed()
-    for (i in 0 until str1.length) {
-        a += when {
-            str1[i] in 'a'..'z' -> (str1[i].toByte() - 87) * base.toDouble().pow(i).toInt()
-            str1[i].toByte() > 0 -> (str1[i].toByte() - 48) * base.toDouble().pow(i).toInt()
-            else -> 0
+    val str1 = str.toMutableList()
+    val digits = mutableListOf<Int>()
+    for (i in 0 until str1.size) {
+        when {
+            str1[i] in 'a'..'z' -> str1 [i] = (str1[i] - 'a' + 10).toChar()
+            str1[i].toByte() > 0 -> str1[i] = (str1[i]-'1' + 1).toChar()
         }
+        digits.add(str1[i].toInt())
     }
-    return a
+    return decimal (digits,base)
 }
+
 
 
 fun toRoman(b: Int, x: String, y: String, z: String): String {
     var a = b
-    var str = ""
-    when {
-        a < 4 -> while (a > 0) {
-            str += x
-            a--
-        }
-        a == 4 -> str += y + x
-        a == 5 -> str += y
-        a in 6..8 -> {
-            while (a - 5 > 0) {
-                str += x
+    return buildString {
+        when {
+            a < 4 -> while (a > 0) {
+                append(x)
                 a--
             }
-            str += y
+            a == 4 -> append(y + x)
+            a == 5 -> append(y)
+            a in 6..8 -> {
+                while (a - 5 > 0) {
+                    append(x)
+                    a--
+                }
+                append(y)
+            }
+            a == 9 -> append(z + x)
         }
-        a == 9 -> str = z + x
     }
-    return str
 }
 
 /**
@@ -362,8 +363,8 @@ fun roman(n: Int): String {
         value /= 10
     }
     return str.reversed()
-
 }
+
 
 fun numToStr(x: Int): String {
     var str = ""
@@ -381,6 +382,7 @@ fun numToStr(x: Int): String {
     }
     return str
 }
+
 
 fun toRussian(x: Int): String {
     var str = ""

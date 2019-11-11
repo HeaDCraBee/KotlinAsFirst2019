@@ -162,7 +162,7 @@ fun squareBetweenExists(m: Int, n: Int):
         Boolean =
     (sqrt(n.toDouble()) % 10 == 0.0) ||
             (sqrt(m.toDouble()) % 10 == 0.0) ||
-            (sqrt(n.toDouble()).toInt() - sqrt(m - 1.toDouble()).toInt() >= 1)
+            (sqrt(n.toDouble()).toInt() - sqrt(m.toDouble()).toInt() >= 1)
 
 /**
  * Средняя
