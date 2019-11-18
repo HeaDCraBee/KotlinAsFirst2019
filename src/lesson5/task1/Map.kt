@@ -134,7 +134,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((unit) in b)
         if (a[unit] == b[unit]) a.remove(unit)
 }
@@ -147,10 +147,12 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val inBoth = mutableSetOf<String>()
-    for (name in a)
-        if (name in b) inBoth += name
-    return inBoth.toList()
+    val setA = a.toMutableSet()
+    val inBoth = b.toMutableList()
+    for (i in 0 until b.size)
+        if (b[i] !in setA)
+            inBoth.remove(b[i])
+    return inBoth
 }
 
 /**
@@ -238,9 +240,15 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    for (i in word)
-        if ((i !in chars) && (i.toUpperCase() !in chars) && (i.toLowerCase() !in chars)) return false
-    return true
+    word.toLowerCase()
+    val charSet = chars.toMutableSet()
+    val can = mutableListOf<Char>()
+    for (i in 0 until word.length)
+        can.add(word[i])
+    for (i in 0 until word.length)
+        if (word[i] in charSet)
+            can.remove(word[i])
+    return can.isEmpty()
 }
 
 
@@ -274,21 +282,14 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    val word = mutableListOf<Char>()
-    var b = ""
-    for (i in 1 until words.size) {
-        val a = words[i - 1]
-        if (a != b) {
-            word.clear()
-            for (j in 0 until a.length) {
-                word.add(a[j])
-                b = a
-            }
-        }
-        for (n in i until words.size) {
-            if (canBuildFrom(word, words[n]))
-                return true
-        }
+
+    for (word in 0 until words.size) {
+        val a = mutableListOf<Char>()
+        for (letter in words[word])
+            a.add(letter)
+        for (nextWord in word + 1 until words.size)
+            if (a.size == words[nextWord].length)
+                return canBuildFrom(a, words[nextWord])
     }
     return false
 }

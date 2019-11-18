@@ -130,10 +130,9 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    return if (list.isEmpty()) 0.0
+fun mean(list: List<Double>): Double =
+    if (list.isEmpty()) 0.0
     else list.sum() / list.size
-}
 
 /**
  * Средняя
@@ -145,9 +144,8 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val a = mean(list)
-    for (i in list.indices) {
+    for (i in list.indices)
         list[i] -= a
-    }
     return list
 }
 
@@ -191,9 +189,8 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    for (i in 1 until list.size) {
+    for (i in 1 until list.size)
         list[i] += list[i - 1]
-    }
     return list
 }
 
@@ -207,11 +204,12 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  */
 fun factorize(n: Int): List<Int> {
     var value = n
-    return if (isPrime(value)) listOf(value)
+    return if (isPrime(value))
+        listOf(value)
     else {
-        var list = listOf<Int>()
+        val list = mutableListOf<Int>()
         while (value > 1) {
-            list = list + minDivisor(value)
+            list += minDivisor(value)
             value /= minDivisor(value)
         }
         return list
@@ -241,8 +239,10 @@ fun convert(n: Int, base: Int): List<Int> {
         list.add(value % base)
         value /= base
     }
-    return if (list.isEmpty()) listOf(0)
-    else list.reversed()
+    return if (list.isEmpty())
+        listOf(0)
+    else
+        list.reversed()
 }
 
 
@@ -259,14 +259,15 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     return buildString {
-        val digitsList = convert (n, base)
-        for ( i in 0 until digitsList.size){
-            if (digitsList[i] > 9) append((digitsList[i] + 'a'.toByte() - 10).toChar())
-            else append(digitsList[i])
+        val digitsList = convert(n, base)
+        for (i in 0 until digitsList.size) {
+            if (digitsList[i] > 9)
+                append((digitsList[i] + 87).toChar())
+            else
+                append(digitsList[i])
         }
     }
 }
-
 
 
 /**
@@ -279,9 +280,8 @@ fun convertToString(n: Int, base: Int): String {
 fun decimal(digits: List<Int>, base: Int): Int {
     var a = 0
     val digitsRev = digits.reversed()
-    for (i in 0 until digitsRev.size) {
+    for (i in 0 until digitsRev.size)
         a += digitsRev[i] * base.toDouble().pow(i).toInt()
-    }
     return a
 }
 
@@ -302,14 +302,13 @@ fun decimalFromString(str: String, base: Int): Int {
     val digits = mutableListOf<Int>()
     for (i in 0 until str1.size) {
         when {
-            str1[i] in 'a'..'z' -> str1 [i] = (str1[i] - 'a' + 10).toChar()
-            str1[i].toByte() > 0 -> str1[i] = (str1[i]-'1' + 1).toChar()
+            str1[i] in 'a'..'z' -> str1[i] = (str1[i] - 'a' + 10).toChar()
+            str1[i].toByte() > 0 -> str1[i] = (str1[i] - '1' + 1).toChar()
         }
         digits.add(str1[i].toInt())
     }
-    return decimal (digits,base)
+    return decimal(digits, base)
 }
-
 
 
 fun toRoman(b: Int, x: String, y: String, z: String): String {
@@ -367,20 +366,20 @@ fun roman(n: Int): String {
 
 
 fun numToStr(x: Int): String {
-    var str = ""
-    when (x) {
-        1 -> str = " один"
-        2 -> str = " два"
-        3 -> str = " три"
-        4 -> str = " четыре"
-        5 -> str = " пять"
-        6 -> str = " шесть"
-        7 -> str = " семь"
-        8 -> str = " восемь"
-        9 -> str = " девять"
-        10 -> str = " десять"
-    }
-    return str
+    val list = listOf(
+        "",
+        " один",
+        " два",
+        " три",
+        " четыре",
+        " пять",
+        " шесть",
+        " семь",
+        " восемь",
+        " девять",
+        " десять"
+    )
+    return list[x]
 }
 
 

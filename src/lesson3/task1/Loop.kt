@@ -99,8 +99,10 @@ fun lcm(m: Int, n: Int): Int {
     var x = m
     var y = n
     while (x != y) {
-        if (x > y) x -= y
-        else y -= x
+        if (x > y)
+            x -= y
+        else
+            y -= x
     }
     return m * (n / x)
 }
@@ -139,7 +141,8 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var k = true
-    if ((isPrime(m)) && (isPrime(n)) || (m == 1) || (n == 1)) k = true
+    if ((isPrime(m)) && (isPrime(n)) || (m == 1) || (n == 1))
+        k = true
     else {
         for (i in 2..min(m, n)) {
             if ((m % i == 0) && (n % i) == 0) {
@@ -183,8 +186,10 @@ fun collatzSteps(x: Int): Int {
     var i = 0
     var value = x
     while (value != 1) {
-        if (value % 2 == 0) value /= 2
-        else value = 3 * value + 1
+        if (value % 2 == 0)
+            value /= 2
+        else
+            value = 3 * value + 1
         i++
     }
     return i
@@ -284,9 +289,8 @@ fun hasDifferentDigits(n: Int): Boolean {
         if (first != (value % 10)) {
             k = true
             break
-        } else {
+        } else
             value /= 10
-        }
     }
     return k
 }
@@ -329,7 +333,8 @@ fun sequenceDigit(n: Int, func: (n: Int) -> Int): Int {
             value /= 10
         }
         i += k
-        if (i < n) continue
+        if (i < n)
+            continue
         else {
             a = (z / 10.0.pow(i - n)).toInt() % 10
             break
