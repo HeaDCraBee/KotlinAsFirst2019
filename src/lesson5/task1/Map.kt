@@ -281,7 +281,7 @@ fun hasAnagrams(words: List<String>): Boolean {
         val chars = words[i].toList()
         for (n in i+1 until words.size) {
             val word = words[n]
-            if (canBuildFrom(chars, word)) return true
+            if ((canBuildFrom(chars, word))&& (chars.size == word.length)) return true
         }
     }
     return false
