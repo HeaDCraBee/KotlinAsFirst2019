@@ -240,13 +240,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val charSet = chars.toString().toLowerCase()
-    val can = mutableListOf<Char>()
-    for (i in 0 until word.length)
-        can.add(word[i].toLowerCase())
-    for (i in 0 until word.length)
-        if (word[i].toLowerCase() in charSet)
-            can.remove(word[i].toLowerCase())
+    val can = word.toMutableList()
+    val a = chars.toSet()
+    can.removeAll(a)
     return can.isEmpty()
 }
 
@@ -280,19 +276,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean {
-    for (word in 0 until words.size) {
-        val a = mutableListOf<Char>()
-        if ("" in buildWordSet(words))
-            return true
-        for (letter in words[word])
-            a.add(letter)
-        for (nextWord in word + 1 until words.size)
-            if (a.size == words[nextWord].length)
-                return canBuildFrom(a, words[nextWord])
-    }
-    return false
-}
+fun hasAnagrams(words: List<String>): Boolean = TODO()
 
 /**
  * Сложная
