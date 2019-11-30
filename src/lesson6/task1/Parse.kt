@@ -123,7 +123,7 @@ fun dateDigitToStr(digital: String): String {
             "03" -> "марта"
             "04" -> "апреля"
             "05" -> "мая"
-            "06" -> "марта"
+            "06" -> "июня"
             "07" -> "июля"
             "08" -> "августа"
             "09" -> "сентября"
@@ -153,10 +153,15 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    for (i in 0 until phone.length) {
-        if ((phone[i].toString() == "(") && (phone[i + 1].toString() == ")"))
-            return ""
-        if (phone[i].toString() == ")") break
+    try {
+        for (i in 0 until phone.length) {
+            if ((phone[i].toString() == "(") && (phone[i + 1].toString() == ")"))
+                return ""
+            if (phone[i].toString() == ")") break
+        }
+    }
+
+    catch (e: StringIndexOutOfBoundsException) {
     }
 
     val acceptably = setOf('-', '(', ')')
@@ -178,7 +183,8 @@ fun flattenPhoneNumber(phone: String): String {
             }
     }
 
-    return res
+    return if (res == "") ""
+    else res
 }
 
 /**
