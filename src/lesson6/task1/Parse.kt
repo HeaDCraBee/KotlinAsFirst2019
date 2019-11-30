@@ -132,8 +132,7 @@ fun dateDigitToStr(digital: String): String {
             "12" -> "декабря"
             else -> return ""
         }
-    }
-    catch (e: NumberFormatException) {
+    } catch (e: NumberFormatException) {
         return ""
     }
     return String.format("%1d %s %s", date[0].toInt(), date[1], date[2])
@@ -154,29 +153,27 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    for (i in 0 until phone.length)
-    {
-        if ((phone[i].toString() == "(") && (phone[i+1].toString() == ")"))
+    for (i in 0 until phone.length) {
+        if ((phone[i].toString() == "(") && (phone[i + 1].toString() == ")"))
             return ""
         if (phone[i].toString() == ")") break
     }
 
-    val acceptably = setOf('-','(',')')
+    val acceptably = setOf('-', '(', ')')
     val number = phone.toMutableList()
     number.removeAll(acceptably)
 
     val res = buildString {
-        for ( i in 0 until number.size)
-           if (number[i].toString() != " ") append(number[i].toString())
+        for (i in 0 until number.size)
+            if (number[i].toString() != " ") append(number[i].toString())
 
     }
 
-    for (num  in res){
-        if(num != '+')
+    for (num in res) {
+        if (num != '+')
             try {
                 num.toString().toInt()
-            }
-            catch (e :  NumberFormatException) {
+            } catch (e: NumberFormatException) {
                 return ""
             }
     }
