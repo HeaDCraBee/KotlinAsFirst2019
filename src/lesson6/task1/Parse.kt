@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
+import lesson5.task1.canBuildFrom
 
 /**
  * Пример
@@ -251,7 +252,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val words = str.split(" ")
+    var res = 0
+    for (i in 0 until words.size - 1) {
+        if (words[i].toLowerCase() == words[i + 1].toLowerCase()) return res
+        res += words[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
