@@ -159,12 +159,10 @@ fun flattenPhoneNumber(phone: String): String {
                 return ""
             if (phone[i].toString() == ")") break
         }
+    } catch (e: StringIndexOutOfBoundsException) {
     }
 
-    catch (e: StringIndexOutOfBoundsException) {
-    }
-
-    val acceptably = setOf('-', '(', ')')
+    val acceptably = setOf('-', '(', ')', '+')
     val number = phone.toMutableList()
     number.removeAll(acceptably)
 
@@ -182,8 +180,7 @@ fun flattenPhoneNumber(phone: String): String {
                 return ""
             }
     }
-
-    return if (res == "") ""
+    return if ((phone[0] == '+') && (res != "")) "+$res"
     else res
 }
 
@@ -197,7 +194,28 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val res = jumps.split(" ","-","%").toMutableList()
+    var max = -1
+    var i = 0
+    while(i < res.size) {
+       if (res[i].isEmpty()) res.remove(res[i])
+        else i++
+    }
+i=0
+    try {
+        while (i < res.size) {
+            res[i] = res[i].trim()
+            if (max < res[i].toInt())
+                max = res[i].toInt()
+            i++
+        }
+    } catch (e: NumberFormatException) {
+       return -1
+    }
+
+    return max
+}
 
 /**
  * Сложная
