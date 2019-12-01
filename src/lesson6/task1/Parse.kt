@@ -153,6 +153,7 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
+    if (phone.isEmpty()) return ""
     try {
         for (i in 0 until phone.length) {
             if ((phone[i].toString() == "(") && (phone[i + 1].toString() == ")"))
