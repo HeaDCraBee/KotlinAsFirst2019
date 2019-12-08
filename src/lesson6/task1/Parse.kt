@@ -3,7 +3,23 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
-import lesson5.task1.canBuildFrom
+import java.lang.IndexOutOfBoundsException
+
+
+val months = listOf(
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря"
+)
 
 /**
  * Пример
@@ -73,30 +89,21 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    val date = str.split(" ").toMutableList()
-    if (date.size < 3)
+    val date = str.split(" ")
+    if (date.size != 3)
         return ""
 
-    date[1] = when (date[1]) {
-        "января" -> "01"
-        "февраля" -> "02"
-        "марта" -> "03"
-        "апреля" -> "04"
-        "мая" -> "05"
-        "июня" -> "06"
-        "июля" -> "07"
-        "августа" -> "08"
-        "сентября" -> "09"
-        "октября" -> "10"
-        "ноября" -> "11"
-        "декабря" -> "12"
-        else -> return ""
-    }
+    val day = date[0].toIntOrNull()
+    val month = months.indexOf(date[1])+1
+    val year = date[2].toIntOrNull()
 
-    if ((date[0].toInt() > daysInMonth(date[1].toInt(), date[2].toInt())) || (date[0].toInt() < 1))
+    if ((day.toString().isBlank()) ||(year.toString().isBlank()))
         return ""
 
-    return String.format("%02d.%s.%s", date[0].toInt(), date[1], date[2])
+    if ((day !!> daysInMonth(month, year!! )) || (day < 1) || (month !in 1..12))
+        return ""
+
+    return String.format("%02d.%02d.%d", day, month, year)
 }
 
 /**
@@ -110,33 +117,26 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val date = digital.split(".").toMutableList()
-    try {
-        if (date.size != 3)
-            return ""
+    val date = digital.split(".")
 
-        if ((date[0].toInt() > daysInMonth(date[1].toInt(), date[2].toInt())) || (date[0].toInt() < 1))
-            return ""
-
-        date[1] = when (date[1]) {
-            "01" -> "января"
-            "02" -> "февраля"
-            "03" -> "марта"
-            "04" -> "апреля"
-            "05" -> "мая"
-            "06" -> "июня"
-            "07" -> "июля"
-            "08" -> "августа"
-            "09" -> "сентября"
-            "10" -> "октября"
-            "11" -> "ноября"
-            "12" -> "декабря"
-            else -> return ""
-        }
-    } catch (e: NumberFormatException) {
+    if (date.size != 3)
         return ""
-    }
-    return String.format("%1d %s %s", date[0].toInt(), date[1], date[2])
+
+    val day = date[0].toIntOrNull()
+    val year = date[2].toIntOrNull()
+
+    if ((day == null) ||
+        (year == null) ||
+        (date[1].toIntOrNull() == null) ||
+        (date[1].toIntOrNull() !in 1..12))
+        return ""
+
+    val month = months[date[1].toInt() - 1]
+
+    if ((day > daysInMonth(date[1].toInt(), year )) || (day < 1))
+        return ""
+
+    return String.format("%d %s %d", day, month, year)
 }
 
 /**
@@ -155,10 +155,12 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     if (phone.isEmpty()) return ""
+
     try {
         for (i in 0 until phone.length) {
             if ((phone[i].toString() == "(") && (phone[i + 1].toString() == ")"))
                 return ""
+
             if (phone[i].toString() == ")") break
         }
     } catch (e: StringIndexOutOfBoundsException) {
@@ -170,12 +172,13 @@ fun flattenPhoneNumber(phone: String): String {
 
     val res = buildString {
         for (i in 0 until number.size)
-            if (number[i].toString() != " ") append(number[i].toString())
-
+            if (number[i].toString() != " ")
+                append(number[i].toString())
     }
 
     for (num in res) {
         if (num != '+')
+
             try {
                 num.toString().toInt()
             } catch (e: NumberFormatException) {
@@ -200,20 +203,23 @@ fun bestLongJump(jumps: String): Int {
     val res = jumps.split(" ", "-", "%").toMutableList()
     var max = -1
     var i = 0
+
     while (i < res.size) {
         if (res[i].isEmpty()) res.remove(res[i])
         else i++
     }
+
     i = 0
-    try {
-        while (i < res.size) {
-            res[i] = res[i].trim()
-            if (max < res[i].toInt())
-                max = res[i].toInt()
-            i++
-        }
-    } catch (e: NumberFormatException) {
+
+    if (res.isEmpty())
         return -1
+
+    while (i < res.size) {
+        res[i].trim()
+        if ((res[i].toIntOrNull() == null)) return -1
+        else if (max < res[i].toInt())
+            max = res[i].toInt()
+        i++
     }
 
     return max
@@ -255,10 +261,14 @@ fun plusMinus(expression: String): Int = TODO()
 fun firstDuplicateIndex(str: String): Int {
     val words = str.split(" ")
     var res = 0
+
     for (i in 0 until words.size - 1) {
-        if (words[i].toLowerCase() == words[i + 1].toLowerCase()) return res
+        if (words[i].toLowerCase() == words[i + 1].toLowerCase())
+            return res
+
         res += words[i].length + 1
     }
+
     return -1
 }
 
@@ -273,7 +283,28 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val x = description.split("; ")
+    var res: String
+    val s = mutableListOf<Pair<String, Double>>()
+
+    try {
+        for (i in 0 until x.size) {
+            s.add(x[i].split(" ")[0] to x[i].split(" ")[1].trim().toDouble())
+        }
+
+        res = s[0].first
+
+        for (i in 0 until s.size - 1) {
+            if (s[i].second < s[i + 1].second)
+                res = s[i + 1].first
+        }
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    }
+
+    return res
+}
 
 /**
  * Сложная
