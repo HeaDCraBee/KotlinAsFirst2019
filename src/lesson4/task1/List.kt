@@ -421,7 +421,7 @@ fun russian(n: Int): String {
     var str = ""
     when (n) {
         in 1..999 -> str = toRussian(n)
-        in 1000..1999 -> str = " тысяча" + toRussian(n % 1000)
+        in 1000..1999 -> str = "одна тысяча" + toRussian(n % 1000)
         in 2000..999999 -> {
             if (n / 10000 % 10 == 1) {
                 str = toRussian(n / 1000) + " тысяч" + toRussian(n % 1000)
