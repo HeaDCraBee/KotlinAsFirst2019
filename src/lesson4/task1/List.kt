@@ -259,12 +259,12 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     return buildString {
-        val digitsList = convert(n, base)
-        for (i in 0 until digitsList.size) {
-            if (digitsList[i] > 9)
-                append((digitsList[i] + 87).toChar())
+        convert(n, base)
+        for (i in 0 until convert(n, base).size) {
+            if (convert(n, base)[i] > 9)
+                append((convert(n, base)[i] + 87).toChar())
             else
-                append(digitsList[i])
+                append(convert(n, base)[i])
         }
     }
 }
