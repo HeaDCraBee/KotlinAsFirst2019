@@ -292,14 +292,14 @@ fun mostExpensive(description: String): String {
     var res: String
     val s = mutableListOf<Pair<String, Double>>()
     for (i in 0 until x.size) {
-        s.add(x[0].split(" ")[0] to x[i].split(" ")[1].trim().toDouble())
+        s.add(x[i].split(" ")[0] to x[i].split(" ")[1].trim().toDouble())
     }
 
     res = s[0].first
 
     for (i in 0 until s.size - 1) {
         if ((s[i].first == "a"))
-            return "Any good with price ${s[i].second}"
+            return "Any"
         else if (s[i].second < s[i + 1].second)
             res = s[i + 1].first
     }
