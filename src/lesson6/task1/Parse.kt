@@ -94,13 +94,13 @@ fun dateStrToDigit(str: String): String {
         return ""
 
     val day = date[0].toIntOrNull()
-    val month = months.indexOf(date[1])+1
+    val month = months.indexOf(date[1]) + 1
     val year = date[2].toIntOrNull()
 
-    if ((day == null) ||(year == null))
+    if ((day == null) || (year == null))
         return ""
 
-    if ((day > daysInMonth(month, year )) || (day < 1) || (month !in 1..12))
+    if ((day > daysInMonth(month, year)) || (day < 1) || (month !in 1..12))
         return ""
 
     return String.format("%02d.%02d.%d", day, month, year)
@@ -128,12 +128,13 @@ fun dateDigitToStr(digital: String): String {
     if ((day == null) ||
         (year == null) ||
         (date[1].toIntOrNull() == null) ||
-        (date[1].toIntOrNull() !in 1..12))
+        (date[1].toIntOrNull() !in 1..12)
+    )
         return ""
 
     val month = months[date[1].toInt() - 1]
 
-    if ((day > daysInMonth(date[1].toInt(), year )) || (day < 1))
+    if ((day > daysInMonth(date[1].toInt(), year)) || (day < 1))
         return ""
 
     return String.format("%d %s %d", day, month, year)
@@ -284,23 +285,23 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше либо равны нуля.
  */
 fun mostExpensive(description: String): String {
+    if (description.isBlank())
+        return ""
+
     val x = description.split("; ")
     var res: String
     val s = mutableListOf<Pair<String, Double>>()
+    for (i in 0 until x.size) {
+        s.add(x[0].split(" ")[0] to x[i].split(" ")[1].trim().toDouble())
+    }
 
-    try {
-        for (i in 0 until x.size) {
-            s.add(x[i].split(" ")[0] to x[i].split(" ")[1].trim().toDouble())
-        }
+    res = s[0].first
 
-        res = s[0].first
-
-        for (i in 0 until s.size - 1) {
-            if (s[i].second < s[i + 1].second)
-                res = s[i + 1].first
-        }
-    } catch (e: IndexOutOfBoundsException) {
-        return ""
+    for (i in 0 until s.size - 1) {
+        if ((s[i].first == "a"))
+            return "Any good with price ${s[i].second}"
+        else if (s[i].second < s[i + 1].second)
+            res = s[i + 1].first
     }
 
     return res
