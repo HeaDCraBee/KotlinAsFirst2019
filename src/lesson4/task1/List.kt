@@ -365,8 +365,8 @@ fun roman(n: Int): String {
 }
 
 
-fun numToStr(x: Int): String {
-    val list = listOf(
+
+    val digit = listOf(
         "",
         " один",
         " два",
@@ -379,8 +379,7 @@ fun numToStr(x: Int): String {
         " девять",
         " десять"
     )
-    return list[x]
-}
+
 
 
 fun toRussian(x: Int): String {
@@ -388,24 +387,24 @@ fun toRussian(x: Int): String {
     when {
         x / 100 == 1 -> str += " сто"
         x / 100 == 2 -> str += " двести"
-        x / 100 in 3..4 -> str += numToStr(x / 100) + "ста"
-        x / 100 in 5..9 -> str += numToStr(x / 100) + "сот"
+        x / 100 in 3..4 -> str += digit[x / 100] + "ста"
+        x / 100 in 5..9 -> str += digit[x / 100] + "сот"
     }
     when {
-        x / 10 % 10 in (2..3) -> str += numToStr(x / 10 % 10) + "дцать"
-        x / 10 % 10 in (5..8) -> str += numToStr(x / 10 % 10) + "десят"
+        x / 10 % 10 in (2..3) -> str += digit[x / 10 % 10] + "дцать"
+        x / 10 % 10 in (5..8) -> str += digit[x / 10 % 10] + "десят"
         x / 10 % 10 == 4 -> str += " сорок"
         x / 10 % 10 == 9 -> str += " девяносто"
     }
     if (x / 10 % 10 == 1) {
         when (x % 10) {
-            0 -> str += numToStr(10)
-            1, 3 -> str += numToStr(x % 10) + "надцать"
+            0 -> str += digit[10]
+            1, 3 -> str += digit[x % 10] + "надцать"
             2 -> str += " двенадцать"
-            4, 5, 6, 7, 8, 9 -> str += numToStr(x % 10).substring(0, numToStr(x % 10).length - 1) + "надцать"
+            4, 5, 6, 7, 8, 9 -> str += digit[x % 10].substring(0, digit[x % 10].length - 1) + "надцать"
         }
     } else when {
-        x % 10 in 0..9 -> str += numToStr(x % 10)
+        x % 10 in 0..9 -> str += digit[x % 10]
     }
     return str
 }
