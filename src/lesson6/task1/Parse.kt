@@ -298,11 +298,13 @@ fun mostExpensive(description: String): String {
     res = s[0].first
 
     for (i in 0 until s.size - 1) {
-     /*   if ((s[i].first == "a")) {
-            s[i] = "Any" to s[i].second
-            return s[i].first
+        if ((s[i].first == "a")) {
+            s[i] = "Any good" to s[i].second
+            println(s[i])
+            res = s[i].first
+            return res
         }
-        else*/ if (s[i].second < s[i + 1].second)
+        else if (s[i].second < s[i + 1].second)
             res = s[i + 1].first
     }
 
