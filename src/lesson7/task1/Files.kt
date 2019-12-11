@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.lang.StringBuilder
 
 /**
  * Пример
@@ -83,21 +84,20 @@ fun strInText(str: String, text: String): Int {
  */
 fun sibilants(inputName: String, outputName: String) {
     val consonant = setOf('Ж', 'Ч', 'Ш', 'Щ', 'ж', 'ч', 'ш', 'щ')
-    val vowel = listOf('Ы', 'Я', 'Ю')
+    val vowel = listOf('Ы', 'Я', 'Ю', 'ы', 'я', 'ю')
     val rightVowel = listOf('И', 'А', 'У')
     val text = File(inputName).readText()
-    val res = buildString {
-        if (text.length == 1) append(text)
-        else {
-            for (i in 0 until text.length) {
-                if ((text[i] !in vowel) || (((text[i] in vowel) && (text[i - 1] !in consonant)))) append(text[i])
-                else if ((text[i] in vowel) && (text[i - 1] in consonant)) {
-                    for (n in 0..2) {
-                        if (vowel[n] == text[i].toUpperCase()) {
-                            when {
-                                text[i].isLowerCase() -> append(rightVowel[n].toLowerCase())
-                                else -> append(rightVowel[n])
-                            }
+    var res = ""
+    if (text.length == 1) res = text
+    else res = buildString {
+        for (i in 0 until text.length) {
+            if ((text[i] !in vowel) || (((text[i] in vowel) && (text[i - 1] !in consonant)))) append(text[i])
+            else if ((text[i] in vowel) && (text[i - 1] in consonant)) {
+                for (n in 0..2) {
+                    if (vowel[n] == text[i].toUpperCase()) {
+                        when {
+                            text[i].isLowerCase() -> append(rightVowel[n].toLowerCase())
+                            else -> append(rightVowel[n])
                         }
                     }
                 }
