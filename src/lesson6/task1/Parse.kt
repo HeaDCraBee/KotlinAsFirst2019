@@ -299,8 +299,9 @@ fun mostExpensive(description: String): String {
 
     for (i in 0 until s.size - 1) {
         if ((s[i].first == "a")) {
-            return "Any good with price ${s[i].second}"
-        } else if (s[i].second < s[i + 1].second)
+            return ""
+        }
+        else if (s[i].second < s[i + 1].second)
             res = s[i + 1].first
     }
 
