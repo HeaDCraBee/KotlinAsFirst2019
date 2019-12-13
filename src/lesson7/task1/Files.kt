@@ -83,19 +83,15 @@ fun strInText(str: String, text: String): Int {
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    val consonant = setOf('Ж', 'Ч', 'Ш', 'Щ', 'ж', 'ч', 'ш', 'щ')
-    val vowel = listOf('Ы', 'Я', 'Ю', 'ы', 'я', 'ю')
+    val consonant = setOf('Ж', 'Ч', 'Ш', 'Щ')
+    val vowel = listOf('Ы', 'Я', 'Ю')
     val rightVowel = listOf('И', 'А', 'У')
     val text = File(inputName).readText()
-    var res = ""
-    if (text.length == 1)
-        res = text
-    else res = buildString {
+    val res = buildString {
         append(text[0])
         for (i in 1 until text.length) {
-            if ((text[i] !in vowel) || (((text[i] in vowel) && (text[i - 1] !in consonant))))
-                append(text[i])
-            else if ((text[i] in vowel) && (text[i - 1] in consonant)) {
+            if ((text[i].toUpperCase() !in vowel) || (((text[i].toUpperCase() in vowel) && (text[i - 1].toUpperCase() !in consonant)))) append(text[i])
+            else if ((text[i].toUpperCase() in vowel) && (text[i - 1].toUpperCase() in consonant)) {
                 for (n in 0..2) {
                     if (vowel[n] == text[i].toUpperCase()) {
                         when {
