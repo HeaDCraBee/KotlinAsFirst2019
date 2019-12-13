@@ -88,10 +88,13 @@ fun sibilants(inputName: String, outputName: String) {
     val rightVowel = listOf('И', 'А', 'У')
     val text = File(inputName).readText()
     var res = ""
-    if (text.length == 1) res = text
+    if (text.length == 1)
+        res = text
     else res = buildString {
-        for (i in 0 until text.length) {
-            if ((text[i] !in vowel) || (((text[i] in vowel) && (text[i - 1] !in consonant)))) append(text[i])
+        append(text[0])
+        for (i in 1 until text.length) {
+            if ((text[i] !in vowel) || (((text[i] in vowel) && (text[i - 1] !in consonant))))
+                append(text[i])
             else if ((text[i] in vowel) && (text[i - 1] in consonant)) {
                 for (n in 0..2) {
                     if (vowel[n] == text[i].toUpperCase()) {
