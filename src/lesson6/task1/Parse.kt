@@ -299,7 +299,7 @@ fun mostExpensive(description: String): String {
 
     for (i in 0 until s.size - 1) {
         if ((s[i].first == "a")) {
-            s[i] = "Any good" to s[i].second
+            s[i] = "Any" to s[i].second
             return s[0].first
         }
         else if (s[i].second < s[i + 1].second)
