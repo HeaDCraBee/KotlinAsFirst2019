@@ -87,27 +87,29 @@ fun sibilants(inputName: String, outputName: String) {
     val vowel = listOf('Ы', 'Я', 'Ю')
     val rightVowel = listOf('И', 'А', 'У')
     val text = File(inputName).readText()
-    if (text.length == 1)
-        File(outputName).writeText(text)
-    else {
-        val res = buildString {
-            append(text[0])
-            for (i in 1 until text.length) {
-                if ((text[i].toUpperCase() !in vowel) || (((text[i].toUpperCase() in vowel) && (text[i - 1].toUpperCase() !in consonant))))
-                    append(text[i])
-                else if ((text[i].toUpperCase() in vowel) && (text[i - 1].toUpperCase() in consonant)) {
-                    for (n in 0..2) {
-                        if (vowel[n] == text[i].toUpperCase()) {
-                            when {
-                                text[i].isLowerCase() -> append(rightVowel[n].toLowerCase())
-                                else -> append(rightVowel[n])
+    when {
+        text.length == 1 -> File(outputName).writeText(text)
+        text.isBlank() -> File(outputName).writeText("")
+        else -> {
+            val res = buildString {
+                append(text[0])
+                for (i in 1 until text.length) {
+                    if ((text[i].toUpperCase() !in vowel) || (((text[i].toUpperCase() in vowel) && (text[i - 1].toUpperCase() !in consonant))))
+                        append(text[i])
+                    else if ((text[i].toUpperCase() in vowel) && (text[i - 1].toUpperCase() in consonant)) {
+                        for (n in 0..2) {
+                            if (vowel[n] == text[i].toUpperCase()) {
+                                when {
+                                    text[i].isLowerCase() -> append(rightVowel[n].toLowerCase())
+                                    else -> append(rightVowel[n])
+                                }
                             }
                         }
                     }
                 }
             }
+            File(outputName).writeText(res)
         }
-        File(outputName).writeText(res)
     }
 }
 
