@@ -84,7 +84,7 @@ fun strInText(str: String, text: String): Int {
  */
 fun sibilants(inputName: String, outputName: String) {
     val consonant = setOf('Ж', 'Ч', 'Ш', 'Щ')
-    val vowel = listOf('Ы', 'Я', 'Ю')
+    val vowel = setOf('Ы', 'Я', 'Ю')
     val rightVowel = listOf('И', 'А', 'У')
     val text = File(inputName).readText()
     when {
@@ -94,15 +94,15 @@ fun sibilants(inputName: String, outputName: String) {
             val res = buildString {
                 append(text[0])
                 for (i in 1 until text.length) {
-                    if ((text[i].toUpperCase() !in vowel) || (((text[i].toUpperCase() in vowel) && (text[i - 1].toUpperCase() !in consonant))))
+                    if ((text[i].toUpperCase() !in vowel) || (((text[i].toUpperCase() in vowel) &&
+                                (text[i - 1].toUpperCase() !in consonant)))
+                    )
                         append(text[i])
                     else if ((text[i].toUpperCase() in vowel) && (text[i - 1].toUpperCase() in consonant)) {
-                        for (n in 0..2) {
-                            if (vowel[n] == text[i].toUpperCase()) {
-                                when {
-                                    text[i].isLowerCase() -> append(rightVowel[n].toLowerCase())
-                                    else -> append(rightVowel[n])
-                                }
+                        if (text[i].toUpperCase() in vowel) {
+                            when {
+                                text[i].isLowerCase() -> append(rightVowel[rightVowel.indexOf(text[i])].toLowerCase())
+                                else -> append(rightVowel[rightVowel.indexOf(text[i])])
                             }
                         }
                     }
@@ -224,7 +224,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
     val inRus = mutableListOf<Char>()
     val inEng = mutableListOf<String>()
 
-    for ((key,value) in dictionary){
+    for ((key, value) in dictionary) {
         inRus.add(key.toLowerCase())
         inEng.add(value.toLowerCase())
     }
@@ -236,12 +236,11 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
             if (word.toLowerCase() in inRus)
 
                 if (word.isUpperCase()) {
-                    val x = inEng[inRus.indexOf(word)+1]
+                    val x = inEng[inRus.indexOf(word) + 1]
                     append(x[0].toUpperCase())
                     if (x.length > 1)
                         append(x.substring(1, x.length))
                 } else append(inEng[inRus.indexOf(word)])
-
             else append(word)
         }
 
