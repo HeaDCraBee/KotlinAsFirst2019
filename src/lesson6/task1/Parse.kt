@@ -97,10 +97,7 @@ fun dateStrToDigit(str: String): String {
     val month = months.indexOf(date[1]) + 1
     val year = date[2].toIntOrNull()
 
-    if ((day == null) || (year == null))
-        return ""
-
-    if ((day > daysInMonth(month, year)) || (day < 1) || (month !in 1..12))
+    if ((day == null) || (year == null) || (day > daysInMonth(month, year)) || (day < 1) || (month !in 1..12))
         return ""
 
     return String.format("%02d.%02d.%d", day, month, year)
@@ -124,17 +121,15 @@ fun dateDigitToStr(digital: String): String {
 
     val day = date[0].toIntOrNull()
     val year = date[2].toIntOrNull()
+    val month = months[date[1].toInt() - 1]
 
     if ((day == null) ||
         (year == null) ||
         (date[1].toIntOrNull() == null) ||
-        (date[1].toIntOrNull() !in 1..12)
+        (date[1].toIntOrNull() !in 1..12) ||
+        (day > daysInMonth(date[1].toInt(), year)) ||
+        (day < 1)
     )
-        return ""
-
-    val month = months[date[1].toInt() - 1]
-
-    if ((day > daysInMonth(date[1].toInt(), year)) || (day < 1))
         return ""
 
     return String.format("%d %s %d", day, month, year)
@@ -201,8 +196,9 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val res = jumps.split(" ", "-", "%").toMutableList()
+    val res = (jumps.split(" ", "-", "%").toMutableList())
     var max = -1
+
     var i = 0
 
     while (i < res.size) {
@@ -210,17 +206,14 @@ fun bestLongJump(jumps: String): Int {
         else i++
     }
 
-    i = 0
-
     if (res.isEmpty())
         return -1
 
-    while (i < res.size) {
-        res[i].trim()
-        if ((res[i].toIntOrNull() == null)) return -1
-        else if (max < res[i].toInt())
-            max = res[i].toInt()
-        i++
+    res.forEach {
+        if (it.toIntOrNull() == null)
+            return -1
+        if (max < it.toInt())
+            max = it.toInt()
     }
 
     return max
@@ -290,19 +283,17 @@ fun mostExpensive(description: String): String {
 
     val x = description.split("; ")
     var res: String
-    val s = mutableListOf<Pair<String, Double>>()
+    val s = mutableListOf<Pair<String, Double?>>()
     for (i in 0 until x.size) {
-        s.add(x[i].split(" ")[0] to x[i].split(" ")[1].trim().toDouble())
+        s.add(x[i].split(" ")[0] to x[i].split(" ")[1].trim().toDoubleOrNull())
+        if (s[i].second == null)
+            return ""
     }
 
     res = s[0].first
 
     for (i in 0 until s.size - 1) {
-        if ((s[i].first == "a")) {
-            s[i] = "Any" to s[i].second
-            return s[0].first
-        }
-        else if (s[i].second < s[i + 1].second)
+        if (s[i].second!! < s[i + 1].second!!)
             res = s[i + 1].first
     }
 

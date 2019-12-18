@@ -257,17 +257,16 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String {
-    return buildString {
+fun convertToString(n: Int, base: Int): String =
+    buildString {
         convert(n, base)
         for (i in 0 until convert(n, base).size) {
             if (convert(n, base)[i] > 9)
-                append((convert(n, base)[i] + 87).toChar())
+                append('a'.plus(convert(n, base)[i] - 10))
             else
                 append(convert(n, base)[i])
         }
     }
-}
 
 
 /**

@@ -116,10 +116,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     var res = true
-    for ((key) in a) {
-        if (a[key] != b[key]) res = false
-
-    }
+    for ((key) in a)
+        if (a[key] != b[key])
+            res = false
     return res
 }
 
@@ -149,14 +148,8 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val setA = a.toMutableSet()
-    val inBoth = b.toMutableSet()
-    for (i in 0 until b.size)
-        if (b[i] !in setA)
-            inBoth.remove(b[i])
-    return inBoth.toList()
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b).toList()
+
 
 /**
  * Средняя
@@ -244,10 +237,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val can = word.toLowerCase().toMutableList()
-    val a = chars.toMutableList()
-    for (i in 0 until a.size){
-     a[i] = a[i].toLowerCase()
-    }
+    val a = chars.toMutableList().map { it.toLowerCase() }
     can.removeAll(a)
     return can.isEmpty()
 }
@@ -337,11 +327,10 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    for (i in 0 until list.size - 1) {
-        if (list[i] <= number) {
-            for (j in (i + 1) until list.size)
-                if (list[i] + list[j] == number) return Pair(i, j)
-        }
+    for (i in 0 until list.size) {
+        if (list[i] > number) continue
+        if (((number - list[i]) in list) && (list.indexOf(number - list[i]) != i))
+            return i to list.indexOf(number - list[i])
     }
     return Pair(-1, -1)
 }
