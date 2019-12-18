@@ -302,7 +302,7 @@ fun decimalFromString(str: String, base: Int): Int {
     for (i in 0 until str1.size) {
         when {
             str1[i] in 'a'..'z' -> str1[i] = (str1[i] - 'a' + 10).toChar()
-            str1[i].toByte() > 0 -> str1[i] = (str1[i] - '1' + 1).toChar()
+            else -> str1[i] = (str1[i] - '1' + 1).toChar()
         }
         digits.add(str1[i].toInt())
     }
