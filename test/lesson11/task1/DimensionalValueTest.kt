@@ -16,41 +16,68 @@ internal class DimensionalValueTest {
     @Tag("Normal")
     fun base() {
         val first = DimensionalValue(1.0, "Kg")
-        assertEquals(1.0, first.value)
+        assertEquals(1000.0, first.value)
         assertEquals(Dimension.GRAM, first.dimension)
+
         val second = DimensionalValue("200 m")
         assertEquals(200.0, second.value)
         assertEquals(Dimension.METER, second.dimension)
+
+        assertThrows(IllegalArgumentException::class.java) {
+            DimensionalValue("21e m")
+        }
+
+        assertThrows(IllegalArgumentException::class.java) {
+            DimensionalValue("21 Ks")
+        }
     }
 
     @Test
     @Tag("Easy")
     fun plus() {
         assertApproxEquals(DimensionalValue("2 Km"), DimensionalValue("1 Km") + DimensionalValue("1000 m"), 1e-8)
+
         assertThrows(IllegalArgumentException::class.java) {
             DimensionalValue("1 g") + DimensionalValue("1 m")
         }
+
+        assertThrows(IllegalArgumentException::class.java) {
+            DimensionalValue("e Kg") + DimensionalValue("1 g")
+        }
+
+        assertApproxEquals(DimensionalValue("0 m"), DimensionalValue("1 m") + DimensionalValue("-1 m"), 1e-8)
     }
 
     @Test
     @Tag("Easy")
     operator fun unaryMinus() {
-        assertApproxEquals(DimensionalValue("2 g"), DimensionalValue("-2 g"), 1e-12)
+        assertApproxEquals(DimensionalValue("-2 g"), DimensionalValue("-2 g"), 1e-12)
+
+        assertApproxEquals(DimensionalValue("-2 Kg"), DimensionalValue("-2000 g"), 1e-12)
+
+        assertApproxEquals(DimensionalValue("-1 g"), DimensionalValue("-1 g"), 1e-12)
     }
 
     @Test
     @Tag("Easy")
     fun minus() {
         assertApproxEquals(DimensionalValue("0 m"), DimensionalValue("1 Km") - DimensionalValue("1000 m"), 1e-10)
+
         assertThrows(IllegalArgumentException::class.java) {
             DimensionalValue("1 g") - DimensionalValue("1 m")
         }
+
+        assertApproxEquals(DimensionalValue("3 g"), DimensionalValue("1 g") - DimensionalValue("-2 g"), 1e-10)
+
+        assertApproxEquals(DimensionalValue("-1 g"), DimensionalValue("1 g") - DimensionalValue("2 g"), 1e-10)
     }
 
     @Test
     @Tag("Easy")
     fun times() {
         assertApproxEquals(DimensionalValue("2 Kg"), DimensionalValue("2 g") * 1000.0, 1e-8)
+
+        assertApproxEquals(DimensionalValue("-2 Kg"), DimensionalValue("2 g") * -1000.0, 1e-8)
     }
 
     @Test
