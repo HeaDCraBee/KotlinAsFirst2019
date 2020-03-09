@@ -20,6 +20,9 @@ package lesson12.task1
 class PhoneBook {
 
     private val pBook = mutableMapOf<String, MutableSet<String>>()
+    //разрешает только российские номера и *...#
+    private val approvedPhone = Regex("""(\+\d((\d{10})|(\(\d{3}\)-\d{3}-\d{2}-\d{2})))|(\*\d*#)""")
+    private val approvedName = Regex("""[А-ЯA-Z][а-яa-z]* [А-ЯA-Z][а-яa-z]*""")
 
     /**
      * Добавить человека.
@@ -28,7 +31,7 @@ class PhoneBook {
      * (во втором случае телефонная книга не должна меняться).
      */
     fun addHuman(name: String): Boolean {
-        if (name in pBook.keys)
+        if (!approvedName.matches(name) || name in pBook.keys)
             return false
 
         pBook[name] = mutableSetOf()
@@ -57,7 +60,7 @@ class PhoneBook {
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
     fun addPhone(name: String, phone: String): Boolean {
-        if (name !in pBook || phone in pBook[name]!!)
+        if (name !in pBook || phone in pBook[name]!! || !approvedPhone.matches(phone))
             return false
         for ((human,numbers) in pBook)
             if (phone in numbers && name != human)
