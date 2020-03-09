@@ -37,6 +37,7 @@ class PhoneBook {
         pBook[name] = mutableSetOf()
         return true
     }
+
     /**
      * Убрать человека.
      * Возвращает true, если человек был успешно удалён,
@@ -44,7 +45,7 @@ class PhoneBook {
      * (во втором случае телефонная книга не должна меняться).
      */
     fun removeHuman(name: String): Boolean {
-        if (name in pBook){
+        if (name in pBook) {
             pBook.remove(name)
             return true
         }
@@ -62,7 +63,7 @@ class PhoneBook {
     fun addPhone(name: String, phone: String): Boolean {
         if (name !in pBook || phone in pBook[name]!! || !approvedPhone.matches(phone))
             return false
-        for ((human,numbers) in pBook)
+        for ((human, numbers) in pBook)
             if (phone in numbers && name != human)
                 return false
 
@@ -98,7 +99,7 @@ class PhoneBook {
      * Если такого номера нет в книге, вернуть null.
      */
     fun humanByPhone(phone: String): String? {
-        for ((name, numbers)  in pBook){
+        for ((name, numbers) in pBook) {
             if (phone in numbers)
                 return name
         }
