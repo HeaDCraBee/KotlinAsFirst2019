@@ -30,6 +30,10 @@ internal class DimensionalValueTest {
         assertThrows(IllegalArgumentException::class.java) {
             DimensionalValue("21 Ks")
         }
+
+        val third = DimensionalValue(1.0, "KHz")
+        assertEquals(1000.0, third.value)
+        assertEquals(Dimension.HERTZ, third.dimension)
     }
 
     @Test
@@ -44,6 +48,8 @@ internal class DimensionalValueTest {
         assertThrows(IllegalArgumentException::class.java) {
             DimensionalValue("e Kg") + DimensionalValue("1 g")
         }
+
+        assertApproxEquals(DimensionalValue("3.5 KHz"), DimensionalValue("2 KHz") + DimensionalValue("1500 Hz"), 1e-8)
     }
 
     @Test
@@ -54,6 +60,8 @@ internal class DimensionalValueTest {
         assertApproxEquals(DimensionalValue("-2 Kg"), -DimensionalValue("2000 g"), 1e-12)
 
         assertApproxEquals(DimensionalValue("-1 g"), -DimensionalValue("1 g"), 1e-12)
+
+        assertApproxEquals(DimensionalValue("-1 Hz"), -DimensionalValue("1 Hz"), 1e-12)
     }
 
     @Test
@@ -68,6 +76,8 @@ internal class DimensionalValueTest {
         assertApproxEquals(DimensionalValue("3 g"), DimensionalValue("1 g") - DimensionalValue("-2 g"), 1e-10)
 
         assertApproxEquals(DimensionalValue("-1 g"), DimensionalValue("1 g") - DimensionalValue("2 g"), 1e-10)
+
+        assertApproxEquals(DimensionalValue("1 Hz"), DimensionalValue("1 KHz") - DimensionalValue("999 Hz"), 1e-10)
     }
 
     @Test
@@ -76,40 +86,55 @@ internal class DimensionalValueTest {
         assertApproxEquals(DimensionalValue("2 Kg"), DimensionalValue("2 g") * 1000.0, 1e-8)
 
         assertApproxEquals(DimensionalValue("-2 Kg"), DimensionalValue("2 g") * -1000.0, 1e-8)
+
+        assertApproxEquals(DimensionalValue("-2 mHz"), DimensionalValue("2 Hz") * -0.001, 1e-8)
     }
 
     @Test
     @Tag("Easy")
     fun divValue() {
         assertEquals(1.0, DimensionalValue("3 m") / DimensionalValue("3000 mm"), 1e-10)
+
         assertThrows(IllegalArgumentException::class.java) {
             DimensionalValue("1 g") / DimensionalValue("1 m")
         }
+
+        assertEquals(1.0, DimensionalValue("3 Hz") / DimensionalValue("3000 mHz"), 1e-10)
     }
 
     @Test
     @Tag("Easy")
     fun divDouble() {
         assertApproxEquals(DimensionalValue("42 mm"), DimensionalValue("42 m") / 1000.0, 1e-11)
+
+        assertApproxEquals(DimensionalValue("42 KHz"), DimensionalValue("42 Hz") / 0.001, 1e-11)
     }
 
     @Test
     @Tag("Easy")
     fun equals() {
         assertEquals(DimensionalValue("1 Kg"), DimensionalValue("1 Kg"))
+
         assertEquals(DimensionalValue("3 mm"), DimensionalValue("3 mm"))
+
+        assertEquals(DimensionalValue("1 KHz"), DimensionalValue("1 KHz"))
     }
 
     @Test
     @Tag("Easy")
     fun hashCodeTest() {
         assertEquals(DimensionalValue("1 Kg").hashCode(), DimensionalValue("1 Kg").hashCode())
+
+        assertEquals(DimensionalValue("1 Hz").hashCode(), DimensionalValue("1 Hz").hashCode())
     }
 
     @Test
     @Tag("Easy")
     fun compareTo() {
         assertTrue(DimensionalValue("1 Kg") < DimensionalValue("1500 g"))
+
         assertTrue(DimensionalValue("1 m") > DimensionalValue("900 mm"))
+
+        assertTrue(DimensionalValue("1 Hz") > DimensionalValue("0.0009 Hz"))
     }
 }

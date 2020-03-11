@@ -19,16 +19,16 @@ import java.lang.IllegalArgumentException
  * - либо соответствовать одной из приставок, к которой приписана сама размерность (Km, Kg, mm, mg)
  * - во всех остальных случаях следует бросить IllegalArgumentException
  */
-class DimensionalValue(private val nValue: Double, private val nDimension: String) : Comparable<DimensionalValue> {
+class DimensionalValue(nValue: Double, nDimension: String) : Comparable<DimensionalValue> {
 
 
     companion object {
 
         //Ф-ия находит аббревиатуру префикса
-        private fun getPrefix(x: String): String {
+        private fun getPrefix(dimension: String): String {
             for (pref in DimensionPrefix.values()) {
 
-                if (pref.abbreviation in x && x.length > 1)
+                if (pref.abbreviation in dimension && dimension.length > 1)
                     return pref.abbreviation
 
             }
@@ -37,20 +37,20 @@ class DimensionalValue(private val nValue: Double, private val nDimension: Strin
         }
 
         //Ф-ия находит аббревиатуру размерности
-        private fun dimensions(x: String): String {
+        private fun dimensions(dimension: String): String {
             for (dim in Dimension.values())
 
-                if (dim.abbreviation == x.drop(getPrefix(x).length))
+                if (dim.abbreviation == dimension.drop(getPrefix(dimension).length))
                     return dim.abbreviation
 
             throw IllegalArgumentException()
         }
 
         //Ф-ия находит размерность
-        private fun getDimension(x: String): Dimension {
+        private fun getDimension(dimension: String): Dimension {
             for (dim in Dimension.values()) {
 
-                if (dimensions(x) == dim.abbreviation)
+                if (dimensions(dimension) == dim.abbreviation)
                     return dim
             }
 
@@ -58,12 +58,12 @@ class DimensionalValue(private val nValue: Double, private val nDimension: Strin
         }
 
         //Ф-ия находит множитель
-        private fun getMultiplier(x: String): Double {
+        private fun getMultiplier(dimension: String): Double {
             var res = 1.0
 
-            if (getPrefix(x) in x) {
+            if (getPrefix(dimension) in dimension) {
                 for (pref in DimensionPrefix.values())
-                    if (pref.abbreviation == getPrefix(x))
+                    if (pref.abbreviation == getPrefix(dimension))
                         res = pref.multiplier
             }
 
@@ -71,12 +71,12 @@ class DimensionalValue(private val nValue: Double, private val nDimension: Strin
         }
 
         //Конструктор значения из строки
-        private fun valueConstructor(x: String):
-                Double = x.split(" ").first().toString().toDouble()
+        private fun parseValue(dimension: String):
+                Double = dimension.split(" ").first().toString().toDouble()
 
         //Конструктор размерности
-        private fun dimensionConstructor(x: String): String {
-            val a = x.split(" ").last()
+        private fun parseDimension(dimension: String): String {
+            val a = dimension.split(" ").last()
 
             return if (getDimension(a) in Dimension.values())
                 a
@@ -90,24 +90,18 @@ class DimensionalValue(private val nValue: Double, private val nDimension: Strin
     /**
      * Величина с БАЗОВОЙ размерностью (например для 1.0Kg следует вернуть результат в граммах -- 1000.0)
      */
-    val value: Double
-        get() {
-            return if (nDimension == dimensions(nDimension))
-                nValue
-            else
-                nValue * getMultiplier(nDimension)
-        }
+    val value: Double = if (nDimension == dimensions(nDimension)) nValue else nValue * getMultiplier(nDimension)
     /**
      *
      * БАЗОВАЯ размерность (опять-таки для 1.0Kg следует вернуть GRAM)
      */
-    val dimension: Dimension get() = getDimension(nDimension)
+    val dimension: Dimension  = getDimension(nDimension)
 
     /**
      * Конструктор из строки. Формат строки: значение пробел размерность (1 Kg, 3 mm, 100 g и так далее).
      */
     constructor(s: String) :
-            this(valueConstructor(s), dimensionConstructor(s))
+            this(parseValue(s), parseDimension(s))
 
     /**
      * Сложение с другой величиной. Если базовая размерность разная, бросить IllegalArgumentException
@@ -194,7 +188,8 @@ class DimensionalValue(private val nValue: Double, private val nDimension: Strin
  */
 enum class Dimension(val abbreviation: String) {
     METER("m"),
-    GRAM("g");
+    GRAM("g"),
+    HERTZ("Hz");
 }
 
 /**
