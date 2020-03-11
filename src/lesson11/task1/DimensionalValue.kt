@@ -123,11 +123,6 @@ class DimensionalValue(private val nValue: Double, private val nDimension: Strin
     /**
      * Смена знака величины
      */
-    /*Знак не меняется на противоположный, чтобы я не делал со значениями и конвертором...
-     Во всех остальных функциях знаки нормально учитываются.
-(68)* x.split(" ").first().toString().toDouble() если это умножить на -1 то знаки у assert И actual поменяются местами, но в самой функции умножение на -1 не работает
-     * - номер строки
-     */
     operator fun unaryMinus():
             DimensionalValue = DimensionalValue(-value, dimension.abbreviation)
 
