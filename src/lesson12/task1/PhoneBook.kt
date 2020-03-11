@@ -67,6 +67,7 @@ class PhoneBook {
         for ((human, numbers) in pBook)
             if (phone in numbers && name != human)
                 return false
+
         pBook[name]?.add(phone)
         return true
     }
