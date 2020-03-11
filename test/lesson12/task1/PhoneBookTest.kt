@@ -12,7 +12,12 @@ internal class PhoneBookTest {
         assertTrue(book.addHuman("Иванов Петр"))
         assertTrue(book.addHuman("Васильев Дмитрий"))
         assertFalse(book.addHuman("Иванов Петр"))
-        assertFalse(book.addHuman("ИванПетр"))
+        assertFalse(book.addHuman("КузьминИлья"))
+        assertFalse(book.addHuman("кузьмин Илья"))
+        assertFalse(book.addHuman("КузьмиН Илья"))
+        assertFalse(book.addHuman("Кузьмин ИльЯ"))
+        assertFalse(book.addHuman("Кузьмин"))
+        assertFalse(book.addHuman("Кузьмин= Илья"))
     }
 
     @Test

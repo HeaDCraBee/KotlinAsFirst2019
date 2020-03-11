@@ -20,9 +20,13 @@ package lesson12.task1
 class PhoneBook {
 
     private val pBook = mutableMapOf<String, MutableSet<String>>()
-    //разрешает только российские номера и *...#
-    private val approvedPhone = Regex("""(\+\d((\d{10})|(\(\d{3}\)-\d{3}-\d{2}-\d{2})))|(\*\d*#)""")
-    private val approvedName = Regex("""[А-ЯA-Z][а-яa-z]* [А-ЯA-Z][а-яa-z]*""")
+
+    companion object {
+
+        private val approvedPhone = Regex("""(\+\d((\d{10})|(\(\d{3}\)-\d{3}-\d{2}-\d{2})))|(\*\d*#)""")
+        private val approvedName = Regex("""[А-ЯA-Z][а-яa-z]* [А-ЯA-Z][а-яa-z]*""")
+
+    }
 
     /**
      * Добавить человека.
@@ -37,6 +41,7 @@ class PhoneBook {
         pBook[name] = mutableSetOf()
         return true
     }
+
     /**
      * Убрать человека.
      * Возвращает true, если человек был успешно удалён,
@@ -44,12 +49,9 @@ class PhoneBook {
      * (во втором случае телефонная книга не должна меняться).
      */
     fun removeHuman(name: String): Boolean {
-        if (name in pBook){
-            pBook.remove(name)
-            return true
-        }
-
-        return false
+        if (pBook.remove(name) == null)
+            return false
+        return true
     }
 
     /**
@@ -62,7 +64,7 @@ class PhoneBook {
     fun addPhone(name: String, phone: String): Boolean {
         if (name !in pBook || phone in pBook[name]!! || !approvedPhone.matches(phone))
             return false
-        for ((human,numbers) in pBook)
+        for ((human, numbers) in pBook)
             if (phone in numbers && name != human)
                 return false
 
@@ -98,7 +100,7 @@ class PhoneBook {
      * Если такого номера нет в книге, вернуть null.
      */
     fun humanByPhone(phone: String): String? {
-        for ((name, numbers)  in pBook){
+        for ((name, numbers) in pBook) {
             if (phone in numbers)
                 return name
         }
