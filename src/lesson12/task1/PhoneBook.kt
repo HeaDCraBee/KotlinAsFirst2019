@@ -62,12 +62,13 @@ class PhoneBook {
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
     fun addPhone(name: String, phone: String): Boolean {
-        if (name !in pBook || phone in pBook[name]!! || !approvedPhone.matches(phone))
+        val nullCheck = pBook[name]
+        if (nullCheck == null || phone in nullCheck || !approvedPhone.matches(phone))
             return false
         for ((human, numbers) in pBook)
             if (phone in numbers && name != human)
                 return false
-
+        print(phone in pBook[name] ?: mutableSetOf(""))
         pBook[name]?.add(phone)
         return true
     }
@@ -79,9 +80,10 @@ class PhoneBook {
      * либо у него не было такого номера телефона.
      */
     fun removePhone(name: String, phone: String): Boolean {
-        if (name !in pBook || phone !in pBook[name]!!)
+        val nullCheck = pBook[name]
+        if (nullCheck == null || phone !in nullCheck)
             return false
-        pBook[name]!!.remove(phone)
+        pBook[name]?.remove(phone)
         return true
     }
 
