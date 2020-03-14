@@ -68,7 +68,6 @@ class PhoneBook {
         for ((human, numbers) in pBook)
             if (phone in numbers && name != human)
                 return false
-        print(phone in pBook[name] ?: mutableSetOf(""))
         pBook[name]?.add(phone)
         return true
     }
